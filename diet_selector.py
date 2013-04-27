@@ -13,17 +13,24 @@ m2 = [[1.0, 1.0/5.0, 1.0],
 	  [5.0,     1.0, 3.0],
 	  [1.0, 1.0/3.0, 1.0]]
 	  
-m3 = [[    1.0, 7.0, 9.0],
+m3 = [[    1.0,     1.0, 7.0],
+	  [    1.0,     1.0, 3.0],
+	  [1.0/7.0, 1.0/3.0, 1.0]]
+	  
+m4 = [[    1.0, 7.0, 9.0],
 	  [1.0/7.0, 1.0, 1.0],
 	  [1.0/9.0, 1.0, 1.0]]
 
 def main():
+	normalizeVertically( m0 )
 	normalizeVertically( m1 )
 	normalizeVertically( m2 )
 	normalizeVertically( m3 )
-	s = calcMatrixWithAvgRows( m1, m2, m3 )
-	
-	print s
+	normalizeVertically( m4 )
+	s0 = calcMatrixWithAvgRows( m0 )
+	s  = calcMatrixWithAvgRows( m1, m2, m3, m4 )
+	r = calcDecisionValues( s0, s )
+	print r
 	
 def normalizeVertically( matrix ):
 	"""Normalizes the given matrix vertically"""
@@ -48,6 +55,17 @@ def calcMatrixWithAvgRows( *matrices ):
 		s.append( rowSums )
 
 	return s
+	
+def calcDecisionValues( s0, s ):
+	colCount = len( s[0] )
+	rowCount = len( s )
+	r = [0.0] * colCount
+	for col in range( colCount ):
+		for row in range( rowCount ):
+			#print str( s0[0][row] ) + " * " + str( s[row][col] )
+			r[col] += s0[0][row] * s[row][col]
+			
+	return r
 
 if __name__ == '__main__':
 	main()
