@@ -8,7 +8,7 @@ def main():
 	s = makeMatrixWithAvgRows( k1 )
 	
 def normalizeVertically( matrix ):
-	'Normalize the given matrix vertically'
+	"""Normalizes the given matrix vertically"""
 
 	# sum all of the columns
 	colSums = [sum(x) for x in zip(*matrix)]
@@ -21,7 +21,8 @@ def normalizeVertically( matrix ):
 			matrix[row][col] /= colSums[col]
 
 def makeMatrixWithAvgRows( *matrices ):
-	'Creates the S matrix with averages of the other matrices'
+	"""Creates the S matrix with averages of the other matrices
+	if used only on one matrix it returns an S vector"""
 	
 	s = []
 	for matrix in matrices:
