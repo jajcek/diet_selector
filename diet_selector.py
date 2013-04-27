@@ -21,7 +21,7 @@ def main():
 	normalizeVertically( m1 )
 	normalizeVertically( m2 )
 	normalizeVertically( m3 )
-	s = makeMatrixWithAvgRows( m1, m2, m3 )
+	s = calcMatrixWithAvgRows( m1, m2, m3 )
 	
 	print s
 	
@@ -38,7 +38,7 @@ def normalizeVertically( matrix ):
 		for row in range( rowCount ):
 			matrix[row][col] /= colSums[col]
 
-def makeMatrixWithAvgRows( *matrices ):
+def calcMatrixWithAvgRows( *matrices ):
 	"""Creates the S matrix with averages of the other matrices
 	if used only on one matrix it returns an S vector"""
 	

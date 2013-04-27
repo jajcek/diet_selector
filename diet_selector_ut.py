@@ -31,7 +31,7 @@ class TestDietSelector( unittest.TestCase ):
 		 
 	def test_makeMatrixWithAvgRows_singleMatrix( self ):
 		diet_selector.normalizeVertically( self.m0 )
-		s = diet_selector.makeMatrixWithAvgRows( self.m0 );
+		s = diet_selector.calcMatrixWithAvgRows( self.m0 );
 		self.assertEqual( s,
 			[[0.5919649561952441, 0.2620275344180225, 0.1006758448060075, 0.045331664580725906]] )
 			
@@ -39,7 +39,7 @@ class TestDietSelector( unittest.TestCase ):
 		diet_selector.normalizeVertically( self.m1 )
 		diet_selector.normalizeVertically( self.m2 )
 		diet_selector.normalizeVertically( self.m3 )
-		s = diet_selector.makeMatrixWithAvgRows( self.m1, self.m2, self.m3 );
+		s = diet_selector.calcMatrixWithAvgRows( self.m1, self.m2, self.m3 );
 		self.assertEqual( s,
 			[[0.5105339105339105, 0.3893217893217893, 0.10014430014430013],
 			 [0.1577639751552795, 0.6554865424430641, 0.1867494824016563],
