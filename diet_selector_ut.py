@@ -62,6 +62,18 @@ class TestDietSelector( unittest.TestCase ):
 		r  = diet_selector.calcDecisionValues( s0, s )
 		self.assertEqual( r,
 			[0.43112114650883737, 0.4461897715261283, 0.12268908196503436] )
+			
+	def test_prepareDecisionVector( self ):
+		diet_selector.normalizeVertically( self.m0 )
+		diet_selector.normalizeVertically( self.m1 )
+		diet_selector.normalizeVertically( self.m2 )
+		diet_selector.normalizeVertically( self.m3 )
+		diet_selector.normalizeVertically( self.m4 )
+		s0 = diet_selector.calcMatrixWithAvgRows( self.m0 );
+		s  = diet_selector.calcMatrixWithAvgRows( self.m1, self.m2, self.m3, self.m4 );
+		r  = diet_selector.calcDecisionValues( s0, s )
+		u  = diet_selector.prepareDecisionVector( r )
+		self.assertEqual( u, [2, 1, 3] )
 
 			
 if __name__ == '__main__':			
