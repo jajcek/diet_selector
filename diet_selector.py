@@ -1,11 +1,29 @@
-m0 = [[1.0,         3.0,     7.0, 9.0],
+# matrices based on the L5Z2
+
+m0 = [[    1.0,     3.0,     7.0, 9.0],
 	  [1.0/3.0,     1.0,     3.0, 7.0],
 	  [1.0/7.0, 1.0/3.0,     1.0, 3.0],
 	  [1.0/9.0, 1.0/7.0, 1.0/3.0, 1.0]]
+	  
+m1 = [[    1.0,     1.0, 7.0],
+	  [    1.0,     1.0, 3.0],
+	  [1.0/7.0, 1.0/3.0, 1.0]]
+	  
+m2 = [[1.0, 1.0/5.0, 1.0],
+	  [5.0,     1.0, 3.0],
+	  [1.0, 1.0/3.0, 1.0]]
+	  
+m3 = [[    1.0, 7.0, 9.0],
+	  [1.0/7.0, 1.0, 1.0],
+	  [1.0/9.0, 1.0, 1.0]]
 
 def main():
-	normalizeVertically( m0 )
-	s = makeMatrixWithAvgRows( m0 )
+	normalizeVertically( m1 )
+	normalizeVertically( m2 )
+	normalizeVertically( m3 )
+	s = makeMatrixWithAvgRows( m1, m2, m3 )
+	
+	print s
 	
 def normalizeVertically( matrix ):
 	"""Normalizes the given matrix vertically"""
