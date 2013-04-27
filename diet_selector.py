@@ -30,7 +30,8 @@ def main():
 	s0 = calcMatrixWithAvgRows( m0 )
 	s  = calcMatrixWithAvgRows( m1, m2, m3, m4 )
 	r  = calcDecisionValues( s0, s )
-	print r
+	u  = prepareDecisionVector( r )
+	print u
 	
 def normalizeVertically( matrix ):
 	"""Normalizes the given matrix vertically"""
@@ -68,6 +69,19 @@ def calcDecisionValues( s0, s ):
 			r[col] += s0[0][row] * s[row][col]
 			
 	return r
+	
+def prepareDecisionVector( valVec ):
+	"""Returns the vector of the final decisions"""
+	
+	u = [1] * len( valVec )
+	index = 0
+	for val in valVec:
+		for val2 in valVec:
+			if val < val2:
+				u[index] += 1
+		index += 1
+	
+	return u
 
 if __name__ == '__main__':
 	main()
