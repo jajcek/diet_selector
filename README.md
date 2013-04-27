@@ -1,2 +1,1 @@
-diet_selector
-=============
+TODO: kod do zwracania wektora u* (macierze w kodzie bazowane na zadaniu L5Z2)

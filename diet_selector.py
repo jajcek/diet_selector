@@ -29,7 +29,7 @@ def main():
 	normalizeVertically( m4 )
 	s0 = calcMatrixWithAvgRows( m0 )
 	s  = calcMatrixWithAvgRows( m1, m2, m3, m4 )
-	r = calcDecisionValues( s0, s )
+	r  = calcDecisionValues( s0, s )
 	print r
 	
 def normalizeVertically( matrix ):
@@ -57,6 +57,8 @@ def calcMatrixWithAvgRows( *matrices ):
 	return s
 	
 def calcDecisionValues( s0, s ):
+	"""Calculates final decision values"""
+
 	colCount = len( s[0] )
 	rowCount = len( s )
 	r = [0.0] * colCount

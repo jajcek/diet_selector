@@ -59,7 +59,7 @@ class TestDietSelector( unittest.TestCase ):
 		diet_selector.normalizeVertically( self.m4 )
 		s0 = diet_selector.calcMatrixWithAvgRows( self.m0 );
 		s  = diet_selector.calcMatrixWithAvgRows( self.m1, self.m2, self.m3, self.m4 );
-		r = diet_selector.calcDecisionValues( s0, s )
+		r  = diet_selector.calcDecisionValues( s0, s )
 		self.assertEqual( r,
 			[0.43112114650883737, 0.4461897715261283, 0.12268908196503436] )
 
