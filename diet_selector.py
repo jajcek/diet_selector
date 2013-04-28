@@ -39,8 +39,8 @@ def main():
 	u = lambdaMax( m0 );
 	w = consistencyIndex( u, len( m0[0] ) );
 	c = consistencyRatio( w, RI[len( m0[0] )-1] )
-	i = isMatrixConsistence( m0 )
-	ii = countMatrixConsistency( m0 )
+	i = isMatrixConsistence( m0, RI )
+	ii = countMatrixConsistency( m0, RI )
 	print u
 	print w
 	print c
@@ -111,7 +111,7 @@ def consistencyIndex( lMax, matrixSize ):
 def consistencyRatio( ci, ri ):
 	return ( ci / ri );
  
-def lambdaMax( matrix, ri = RI ):
+def lambdaMax( matrix ):
 	"""Check if matrix is consistence"""
 	"""epsilon [0;1] - error margin"""
 	gMeans = [ gMean( mat ) for mat in matrix ]; 
@@ -125,13 +125,13 @@ def lambdaMax( matrix, ri = RI ):
 
 	return sum( priorityRow );
 
-def countMatrixConsistency( matrix, ri = RI ): 
-	c = consistencyIndex( lambdaMax( matrix, ri ), len( matrix[0] ) );
-	r = ri[len( matrix[0] )-1];
+def countMatrixConsistency( matrix, riTable ): 
+	c = consistencyIndex( lambdaMax( matrix ), len( matrix[0] ) );
+	r = riTable[ len( matrix[0] )-1 ];
 	return consistencyRatio( c, r );
 
-def isMatrixConsistence( matrix, ri = RI, epsilon = 0.1 ): 
-	return ( countMatrixConsistency( matrix, ri ) < epsilon );
+def isMatrixConsistence( matrix, riTable, epsilon = 0.1 ): 
+	return ( countMatrixConsistency( matrix, riTable ) < epsilon );
 
 
 if __name__ == '__main__':
