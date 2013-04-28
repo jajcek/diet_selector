@@ -25,6 +25,9 @@ class TestDietSelector( unittest.TestCase ):
 				   [1.0/7.0, 1.0, 1.0],
 				   [1.0/9.0, 1.0, 1.0]]
 				   
+		self.RI = [   0,    0, 0.58, 0.90, 1.12,
+				   1.24, 1.32, 1.41, 1.45, 1.49];
+				   
 	def test_normalizeVertically( self ):
 		diet_selector.normalizeVertically( self.m0 )
 		self.assertEqual( self.m0, 
@@ -68,7 +71,14 @@ class TestDietSelector( unittest.TestCase ):
 		r  = [0.43112114650883737, 0.4461897715261283, 0.12268908196503436]
 		u  = diet_selector.prepareDecisionVector( r )
 		self.assertEqual( u, [2, 1, 3] )
+		
+	def test_lambdaMax( self ):
+		u  = diet_selector.lambdaMax( self.m0 )
+		self.assertEqual( u, 4.104915830802947 )
 
+	def test_countMatrixConsistency( self ):
+		i = diet_selector.countMatrixConsistency( self.m0, self.RI )
+		self.assertEqual( i, 0.03885771511220274 )
 			
 if __name__ == '__main__':			
 	suite = unittest.TestLoader().loadTestsFromTestCase( TestDietSelector )
