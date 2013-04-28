@@ -40,7 +40,7 @@ def main():
 	w = consistencyIndex( u, len( m0[0] ) );
 	c = consistencyRatio( w, RI[len( m0[0] )-1] )
 	i = isMatrixConsistence( m0 )
-	ii = countMatrixConsistence( m0 )
+	ii = countMatrixConsistency( m0 )
 	print u
 	print w
 	print c
@@ -125,7 +125,7 @@ def lambdaMax( matrix, ri = RI ):
 
 	return sum( priorityRow );
 
-def countMatrixConsistence( matrix, ri = RI ): 
+def countMatrixConsistency( matrix, ri = RI ): 
 	c = consistencyIndex( lambdaMax( matrix, ri ), len( matrix[0] ) );
 	r = ri[len( matrix[0] )-1];
 	return consistencyRatio( c, r );
