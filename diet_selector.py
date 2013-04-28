@@ -131,7 +131,7 @@ def countMatrixConsistency( matrix, ri = RI ):
 	return consistencyRatio( c, r );
 
 def isMatrixConsistence( matrix, ri = RI, epsilon = 0.1 ): 
-	return ( countMatrixConsistence( matrix, ri ) < epsilon );
+	return ( countMatrixConsistency( matrix, ri ) < epsilon );
 
 
 if __name__ == '__main__':
