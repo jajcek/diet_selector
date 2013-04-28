@@ -21,6 +21,11 @@ m4 = [[    1.0, 7.0, 9.0],
 	  [1.0/7.0, 1.0, 1.0],
 	  [1.0/9.0, 1.0, 1.0]]
 
+mt = [[    1.0, 1.0/4.0, 3.0, 1.0/5.0, 1.0/5.0 ],
+	  [    4.0, 	1.0, 5.0, 	  3.0, 1.0/3.0 ],
+	  [1.0/3.0, 1.0/5.0, 1.0, 1.0/5.0, 1.0/3.0 ],
+	  [    5.0, 1.0/3.0, 5.0, 	  1.0,     5.0 ],
+	  [    5.0, 	3.0, 3.0, 1.0/5.0,     1.0 ]]
 
 RI = [    0,    0, 0.58, 0.90, 1.12,
 	   1.24, 1.32, 1.41, 1.45, 1.49 ];
@@ -36,11 +41,12 @@ def main():
 	s  = calcMatrixWithAvgRows( m1, m2, m3, m4 )
 	r  = calcDecisionValues( s0, s )
 	u  = prepareDecisionVector( r )"""
-	u = lambdaMax( m0 );
-	w = consistencyIndex( u, len( m0[0] ) );
-	c = consistencyRatio( w, RI[len( m0[0] )-1] )
-	i = isMatrixConsistence( m0, RI )
-	ii = countMatrixConsistency( m0, RI )
+	
+	u = lambdaMax( mt );
+	w = consistencyIndex( u, len( mt[0] ) );
+	c = consistencyRatio( w, RI[len( mt[0] )-1] )
+	i = isMatrixConsistence( mt, RI )
+	ii = countMatrixConsistency( mt, RI )
 	print u
 	print w
 	print c
