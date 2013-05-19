@@ -27,10 +27,59 @@ mt = [[    1.0, 1.0/4.0, 3.0, 1.0/5.0, 1.0/5.0 ],
 	  [    5.0, 1.0/3.0, 5.0, 	  1.0,     5.0 ],
 	  [    5.0, 	3.0, 3.0, 1.0/5.0,     1.0 ]]
 
+# cena 
+# pozywnosc
+# czas przygotowania
+# lekkostrawnosc
+# kalorycznosc
+# trudnosc
+	  
 RI = [    0,    0, 0.58, 0.90, 1.12,
 	   1.24, 1.32, 1.41, 1.45, 1.49 ];
 
+	   
+_12 = 1.0/2.0
+_13 = 1.0/3.0
+_14 = 1.0/4.0
+_15 = 1.0/5.0
+_16 = 1.0/6.0
+_17 = 1.0/7.0
+_18 = 1.0/8.0
+_19 = 1.0/9.0
+	   
+criteria = \
+[ 
+	[ 1.0, _15, _14 ],
+	[ 5.0, 1.0, 3.0 ],
+	[ 4.0, _13, 1.0 ],
+]
 
+# gyros  
+# sushi
+# fruit salat
+
+price = \
+[
+	[ 1.0, 7.0, _13 ],
+	[ _17, 1.0, _19 ],
+	[ 3.0, 9.0, 1.0 ]
+]
+
+nour = \
+[
+	[ 1.0, _15, 3.0 ],
+	[ 5.0, 1.0, 7.0 ],
+	[ _13, _17, 1.0 ]
+]
+
+time = \
+[
+	[ 1.0, 5.0, _14 ],
+	[ _15, 1.0, _19 ],
+	[ 4.0, 9.0, 1.0 ]
+]
+	
+	
 def main():
 	"""normalizeVertically( m0 )
 	normalizeVertically( m1 )
@@ -42,16 +91,58 @@ def main():
 	r  = calcDecisionValues( s0, s )
 	u  = prepareDecisionVector( r )"""
 	
-	u = lambdaMax( mt );
-	w = consistencyIndex( u, len( mt[0] ) );
-	c = consistencyRatio( w, RI[len( mt[0] )-1] )
-	i = isMatrixConsistence( mt, RI )
-	ii = countMatrixConsistency( mt, RI )
-	print u
-	print w
-	print c
-	print ii
-	print i
+	lamCrit = lambdaMax( criteria ); 
+	lamPrice = lambdaMax( price ); 
+	lamNour = lambdaMax( nour );
+	lamTime = lambdaMax( time );
+	 
+	print "Lambda Criteria\t ", lamCrit
+	print "Lambda Price\t ", lamPrice
+	print "Lambda Nour\t ", lamNour
+	print "Lambda Time\t ", lamTime, "\n"
+	
+	print "Consists Criteria", \
+		countMatrixConsistency( criteria, RI ), \
+		isMatrixConsistence( criteria, RI ) 
+	print "Consists Price\t ", \
+		countMatrixConsistency( price, RI ), \
+		isMatrixConsistence( price, RI ) 
+	print "Consists Nour\t ", \
+		countMatrixConsistency( nour, RI ), \
+		isMatrixConsistence( nour, RI ) 
+	print "Consists Time\t ", \
+		countMatrixConsistency( time, RI ), \
+		isMatrixConsistence( time, RI ), "\n"
+	
+	normalizeVertically( criteria )
+	normalizeVertically( price )
+	normalizeVertically( nour )
+	normalizeVertically( time )
+	
+	print "Norm Criteria\n", criteria[0]
+	print criteria[1]
+	print criteria[2]
+	print "\nNorm Price\n", price[0]
+	print price[1]
+	print price[2]
+	print "\nNorm Nour\n", nour[0]
+	print nour[1]
+	print nour[2]
+	print "\nNorm Time\n", time[0]
+	print time[1]
+	print time[2], "\n"
+	
+	s0 = calcMatrixWithAvgRows( criteria )
+	print "S0:\n", s0, "\n"
+	
+	s  = calcMatrixWithAvgRows( price, nour, time )
+	print "S:\n", s, "\n"
+	
+	r  = calcDecisionValues( s0, s )
+	print "R:\n", r, "\n"
+	
+	u  = prepareDecisionVector( r )
+	print "U:\n", u, "\n"
 	
 def normalizeVertically( matrix ):
 	"""Normalizes the given matrix vertically"""
@@ -124,7 +215,7 @@ def lambdaMax( matrix ):
 	gMeanSum = sum( gMeans );  
 	
 	priorityVector = [ ( gm / gMeanSum ) for gm in gMeans ];
-
+	
 	colSums = [ sum(x) for x in zip(*matrix) ];  
 
 	priorityRow = [ ( colSums[x] * priorityVector[x] ) for x in range( len( colSums ) ) ];
