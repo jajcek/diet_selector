@@ -1,23 +1,50 @@
 import Tkinter
+import math
 
 class DietSelectorGUI:
     gradHeight = 50
     windowWidth = 800
+    groups = ( -255, -226, -198, -170, -141, -113, -85, -56, -28, 0, 28, 56, 85, 113, 141, 170, 198, 226, 255 )
 	
     def __init__( self, root ):
         C = Tkinter.Canvas( root, bg = "blue", height = self.gradHeight, width = self.windowWidth )
         C.pack()
         C.bind( "<Motion>", lambda event: self.OnMouseMove(event, C ) )
-        #self.drawGradient( C, self.windowWidth / 2, 0, 700, self.gradHeight )
-        #self.drawGradient( C, self.windowWidth / 2, 0, 300, self.gradHeight )
+        self.drawGroups( C )
 
     def OnMouseMove( self, event, canvas ):
         canvas.delete( "all" )
-        offset = 10
+        x = self.findIndex( event.x - self.windowWidth / 2 )
+        self.drawGradient( canvas, self.windowWidth / 2, 0, self.groups[x] + self.windowWidth / 2, self.gradHeight )
+        self.drawGroups( canvas )
         
-        self.drawGradient( canvas, self.windowWidth / 2, 0, event.x, self.gradHeight )
+    def findIndex( self, x ):
+        index = int( math.ceil( x / 28 ) ) + 10
+        if( index > 18 ):
+            index = 18
+        elif( index < 0 ):
+            index = 0
         
-		
+        if( x < 0 ):
+            index -= 1 if index > 0 else 0
+        return index
+	
+    def drawGroups( self, canvas ):
+        for i in self.groups:
+            canvas.create_line( self.windowWidth / 2 + i, 40, self.windowWidth / 2 + i, self.gradHeight, fill = 'red' )
+            
+        # first group
+        pos = self.groups[0]
+        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight, fill = 'red' )
+        
+        # middle group
+        pos = self.groups[len( self.groups ) / 2]
+        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight, fill = 'red' )
+        
+        # last group
+        pos = self.groups[len( self.groups ) - 1]
+        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight, fill = 'red' )
+    
     def drawGradient( self, canvas, x1, y1, x2, h ):
         if( x1 <= x2 ):
             if( x2 - x1 > 255 ):
