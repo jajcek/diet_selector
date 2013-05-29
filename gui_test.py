@@ -10,8 +10,20 @@ class DietSelectorGUI:
         C = Tkinter.Canvas( root, bg = "white", height = 100, width = self.windowWidth, cursor = 'hand2' )
         C.pack()
         C.bind( "<Motion>", lambda event: self.OnMouseMove( event, C ) )
+        C.bind( "<Button-1>", self.OnMouseClick )
         self.drawGroups( C )
 
+    def OnMouseClick( self, event ):
+        x = self.findIndex( event.x - self.windowWidth / 2 ) - 9
+        if( x == 1 ):
+            None
+        elif( x < 0 ):
+            None
+        else:
+            None
+            
+        print str( x )
+        
     def OnMouseMove( self, event, canvas ):
         canvas.delete( "all" )
         x = self.findIndex( event.x - self.windowWidth / 2 )
