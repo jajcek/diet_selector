@@ -7,7 +7,7 @@ class DietSelectorGUI:
     groups = ( -255, -226, -198, -170, -141, -113, -85, -56, -28, 0, 28, 56, 85, 113, 141, 170, 198, 226, 255 )
 	
     def __init__( self, root ):
-        C = Tkinter.Canvas( root, bg = "blue", height = self.gradHeight, width = self.windowWidth )
+        C = Tkinter.Canvas( root, bg = "white", height = self.gradHeight, width = self.windowWidth )
         C.pack()
         C.bind( "<Motion>", lambda event: self.OnMouseMove(event, C ) )
         self.drawGroups( C )
