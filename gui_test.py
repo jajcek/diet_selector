@@ -7,7 +7,7 @@ class DietSelectorGUI:
     groups = ( -255, -226, -198, -170, -141, -113, -85, -56, -28, 0, 28, 56, 85, 113, 141, 170, 198, 226, 255 )
 	
     def __init__( self, root ):
-        C = Tkinter.Canvas( root, bg = "white", height = self.gradHeight, width = self.windowWidth )
+        C = Tkinter.Canvas( root, bg = "white", height = 100, width = self.windowWidth )
         C.pack()
         C.bind( "<Motion>", lambda event: self.OnMouseMove(event, C ) )
         self.drawGroups( C )
@@ -30,34 +30,37 @@ class DietSelectorGUI:
         return index
 	
     def drawGroups( self, canvas ):
+        bottomOffset = 5
+        criticalGroupsOffset = 10;
+    
         for i in self.groups:
-            canvas.create_line( self.windowWidth / 2 + i, 40, self.windowWidth / 2 + i, self.gradHeight, fill = 'red' )
-            
+            canvas.create_line( self.windowWidth / 2 + i, 40, self.windowWidth / 2 + i, self.gradHeight + bottomOffset, fill = 'red' )
+
         # first group
         pos = self.groups[0]
-        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight, fill = 'red' )
+        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight + criticalGroupsOffset, fill = 'red' )
         
         # middle group
         pos = self.groups[len( self.groups ) / 2]
-        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight, fill = 'red' )
+        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight + criticalGroupsOffset, fill = 'red' )
         
         # last group
         pos = self.groups[len( self.groups ) - 1]
-        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight, fill = 'red' )
+        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight + criticalGroupsOffset, fill = 'red' )
     
     def drawGradient( self, canvas, x1, y1, x2, h ):
         if( x1 <= x2 ):
             if( x2 - x1 > 255 ):
                 x2 = x1 + 255
             for offset in range( x1, x2 ):
-                color = offset - x1
+                color = 255 - ( offset - x1 )
                 gradColor = '#%02x%02x%02x' % ( color, color, color )
                 canvas.create_line( offset, y1, offset, y1 + h, fill = gradColor )
         else:
             if( x1 - x2 > 255 ):
                 x2 = x1 - 255
             for offset in range( x2, x1 ):
-                color = x1 - offset
+                color = 255 - ( x1 - offset )
                 gradColor = '#%02x%02x%02x' % ( color, color, color )
                 canvas.create_line( offset, y1, offset, y1 + h, fill = gradColor )
 
