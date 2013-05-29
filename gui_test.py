@@ -34,11 +34,14 @@ class DietSelectorGUI:
         criticalGroupsOffset = 8
         textOffset = 10
     
-        index = -9
-        for i in self.groups:
-            canvas.create_line( self.windowWidth / 2 + i, 40, self.windowWidth / 2 + i, self.gradHeight + bottomOffset, fill = 'red' )
-            canvas.create_text( self.windowWidth / 2 + i, self.gradHeight + bottomOffset + textOffset, text = str( index ) )
-            index += 1
+        for i in range( 0, len( self.groups ) ):
+            groupValue = self.groups[i]
+            canvas.create_line( self.windowWidth / 2 + groupValue, 40, self.windowWidth / 2 + groupValue, self.gradHeight + bottomOffset, fill = 'red' )
+            if( i != len( self.groups ) / 2 ):
+                if( i > len( self.groups ) / 2 ):
+                    canvas.create_text( self.windowWidth / 2 + groupValue - 14, self.gradHeight + bottomOffset + textOffset, text = str( abs( i - 9 ) ) )
+                else:
+                    canvas.create_text( self.windowWidth / 2 + groupValue + 14, self.gradHeight + bottomOffset + textOffset, text = str( abs( i - 9 ) ) )
 
         # first group
         pos = self.groups[0]
