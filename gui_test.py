@@ -9,13 +9,17 @@ class DietSelectorGUI:
     def __init__( self, root ):
         C = Tkinter.Canvas( root, bg = "white", height = 100, width = self.windowWidth, cursor = 'hand2' )
         C.pack()
-        C.bind( "<Motion>", lambda event: self.OnMouseMove(event, C ) )
+        C.bind( "<Motion>", lambda event: self.OnMouseMove( event, C ) )
         self.drawGroups( C )
 
     def OnMouseMove( self, event, canvas ):
         canvas.delete( "all" )
         x = self.findIndex( event.x - self.windowWidth / 2 )
-        self.drawGradient( canvas, self.windowWidth / 2, 0, self.groups[x] + self.windowWidth / 2, self.gradHeight )
+        if( x is not 8 and x is not 10 ):
+            self.drawGradient( canvas, self.windowWidth / 2, 0, self.groups[x] + self.windowWidth / 2, self.gradHeight )
+        else:
+            canvas.create_rectangle( self.groups[8] + self.windowWidth / 2, 0, self.groups[10] + self.windowWidth / 2, 50, fill = 'black' )
+            canvas.create_text( self.windowWidth / 2, 70, text = 'EQUAL', fill = 'red' )
         self.drawGroups( canvas )
         
     def findIndex( self, x ):
@@ -38,10 +42,7 @@ class DietSelectorGUI:
             groupValue = self.groups[i]
             canvas.create_line( self.windowWidth / 2 + groupValue, 40, self.windowWidth / 2 + groupValue, self.gradHeight + bottomOffset, fill = 'red' )
             if( i != len( self.groups ) / 2 ):
-                if( i > len( self.groups ) / 2 ):
-                    canvas.create_text( self.windowWidth / 2 + groupValue - 14, self.gradHeight + bottomOffset + textOffset, text = str( abs( i - 9 ) ) )
-                else:
-                    canvas.create_text( self.windowWidth / 2 + groupValue + 14, self.gradHeight + bottomOffset + textOffset, text = str( abs( i - 9 ) ) )
+                canvas.create_text( self.windowWidth / 2 + groupValue, self.gradHeight + bottomOffset + textOffset, text = str( abs( i - 9 ) ) )
 
         # first group
         pos = self.groups[0]
