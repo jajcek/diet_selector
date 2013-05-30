@@ -19,7 +19,7 @@ class DietSelectorGUI:
     def __init__( self, root ):
         self.preparePairs()
     
-        C = Tkinter.Canvas( root, bg = "white", height = 300, width = self.windowWidth, cursor = 'hand2' )
+        C = Tkinter.Canvas( root, bg = "white", height = 330, width = self.windowWidth, cursor = 'hand2' )
         C.pack()
         C.bind( "<Motion>", lambda event: self.OnMouseMove( event, C ) )
         C.bind( "<Button-1>", lambda event: self.OnMouseClick( event, C ) )
