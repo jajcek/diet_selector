@@ -20,6 +20,8 @@ _19 = 1.0/9.0
 # kalorycznosc
 # latwosc przygotowania
 	   
+CRITERIA = ( 'PRICE', 'NOUR', 'TIME', 'DIGESTIBILITY', 'CALORIFIC', 'SIMPLICITY' )
+       
 criteria = \
 [ 
 	[ 1.0, _15, _14 ],
