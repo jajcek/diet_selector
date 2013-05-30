@@ -32,34 +32,51 @@ class DietSelectorGUI:
         
         priceButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[0] )
         priceButton.place( x = buttonsOffsetX, y = buttonOffsetY, height = 30, width = 100 )
-        priceButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[0] ) )
+        priceButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[0], C ) )
         
         nourButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[1] )
         nourButton.place( x = buttonsOffsetX + 100, y = buttonOffsetY, height = 30, width = 100 )
-        nourButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[1] ) )
+        nourButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[1], C ) )
         
         timeButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[2] )
         timeButton.place( x = buttonsOffsetX + 200, y = buttonOffsetY, height = 30, width = 100 )
-        timeButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[2] ) )
+        timeButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[2], C ) )
         
         digestibilityButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[3] )
         digestibilityButton.place( x = buttonsOffsetX + 300, y = buttonOffsetY, height = 30, width = 100 )
-        digestibilityButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[3] ) )
+        digestibilityButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[3], C ) )
         
         calorificButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[4] )
         calorificButton.place( x = buttonsOffsetX + 400, y = buttonOffsetY, height = 30, width = 100 )
-        calorificButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[4] ) )
+        calorificButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[4], C ) )
         
         simplicityButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[5] )
         simplicityButton.place( x = buttonsOffsetX + 500, y = buttonOffsetY, height = 30, width = 100 )
-        simplicityButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[5] ) )
+        simplicityButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[5], C ) )
         
         self.drawHeader( C )
         self.drawGroups( C )
         self.drawCurrentCritPair( C )
         
-    def OnOrderButtonClick( self, event, criterion ):
-        print( criterion )
+    def OnOrderButtonClick( self, event, criterion, canvas ):
+        orderedCriteria = []
+        removedCriteria = []
+        for crit in self.criteriaPairs:
+            if( crit[0] == criterion ):
+                orderedCriteria.append( [crit[0], crit[1]] )
+            elif( crit[1] == criterion ):
+                orderedCriteria.append( [crit[1], crit[0]] )
+            else:
+                removedCriteria.append( crit )
+                
+        orderedCriteria += removedCriteria
+        
+        self.criteriaPairs = []
+        for crit in orderedCriteria:
+            self.criteriaPairs.append( crit )
+        print self.criteriaPairs
+        print '-------------------------------------------------------------------------'
+        self.OnMouseMove( event, canvas )
 
     def drawHeader( self, canvas ):
         canvas.create_rectangle( 2, 2, self.windowWidth, 50, fill = 'snow' )
@@ -83,7 +100,7 @@ class DietSelectorGUI:
         criteriaCount = len( diet_selector.CRITERIA )
         for i in range( 0, criteriaCount ):
             for j in range( i + 1, criteriaCount ):
-                self.criteriaPairs.append( ( diet_selector.CRITERIA[i], diet_selector.CRITERIA[j] ) )
+                self.criteriaPairs.append( [diet_selector.CRITERIA[i], diet_selector.CRITERIA[j]] )
         
     def OnMouseClick( self, event, canvas ):
         if( self.finished ):
