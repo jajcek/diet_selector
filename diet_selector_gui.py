@@ -50,24 +50,25 @@ class DietSelectorGUI:
         bottomOffset = 5
         criticalGroupsOffset = 8
         textOffset = 10
+        lineColour = 'black'
     
         for i in range( 0, len( self.groups ) ):
             groupValue = self.groups[i]
-            canvas.create_line( self.windowWidth / 2 + groupValue, 40, self.windowWidth / 2 + groupValue, self.gradHeight + bottomOffset, fill = 'red' )
+            canvas.create_line( self.windowWidth / 2 + groupValue, 40, self.windowWidth / 2 + groupValue, self.gradHeight + bottomOffset, fill = lineColour )
             if( i != len( self.groups ) / 2 ):
                 canvas.create_text( self.windowWidth / 2 + groupValue, self.gradHeight + bottomOffset + textOffset, text = str( abs( i - 9 ) ) )
 
         # first group
         pos = self.groups[0]
-        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight + criticalGroupsOffset, fill = 'red' )
+        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight + criticalGroupsOffset, fill = lineColour )
         
         # middle group
         pos = self.groups[len( self.groups ) / 2]
-        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight + criticalGroupsOffset, fill = 'red' )
+        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight + criticalGroupsOffset, fill = lineColour )
         
         # last group
         pos = self.groups[len( self.groups ) - 1]
-        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight + criticalGroupsOffset, fill = 'red' )
+        canvas.create_line( self.windowWidth / 2 + pos, 20, self.windowWidth / 2 + pos, self.gradHeight + criticalGroupsOffset, fill = lineColour )
     
     def drawGradient( self, canvas, x1, y1, x2, h ):
         if( x1 <= x2 ):
