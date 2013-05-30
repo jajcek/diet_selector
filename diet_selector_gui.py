@@ -127,6 +127,9 @@ class DietSelectorGUI:
                                 text = '2. ' + result[1], font = ( 'Calibri', 13 ), fill = 'black' )
             canvas.create_text( self.windowWidth / 2, 170 + self.beltPosOffset,
                                 text = '3. ' + result[2], font = ( 'Calibri', 11 ), fill = 'black' )
+        else:
+            canvas.create_text( self.windowWidth / 2, 110 + self.beltPosOffset,
+                                text = 'The choice is inconsitence!', font = ( 'Calibri', 13 ), fill = 'black' )
     
     def OnMouseMove( self, event, canvas ):
         canvas.delete( "all" )
