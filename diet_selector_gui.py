@@ -7,7 +7,7 @@ class DietSelectorGUI:
     windowWidth = 800
     groups = ( -255, -226, -198, -170, -141, -113, -85, -56, -28, 0, 28, 56, 85, 113, 141, 170, 198, 226, 255 )
     criteriaPairs = []
-    beltPosOffset = 90
+    beltPosOffset = 130
     finished = False
     userChoicesMatrix = [ [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
                           [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
@@ -24,6 +24,30 @@ class DietSelectorGUI:
         C.bind( "<Motion>", lambda event: self.OnMouseMove( event, C ) )
         C.bind( "<Button-1>", lambda event: self.OnMouseClick( event, C ) )
 
+        buttonsOffsetX = 100
+        buttonOffsetY = 90
+        
+        orderLabel = Tkinter.Label( root, text = 'You can choose which criterion should be displayed as first:', bg = 'white' )
+        orderLabel.place( x = self.windowWidth / 2 - 155, y = buttonOffsetY - 30, height = 30, width = 320 )
+        
+        priceButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[0] )
+        priceButton.place( x = buttonsOffsetX, y = buttonOffsetY, height = 30, width = 100 )
+        
+        nourButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[1] )
+        nourButton.place( x = buttonsOffsetX + 100, y = buttonOffsetY, height = 30, width = 100 )
+        
+        timeButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[2] )
+        timeButton.place( x = buttonsOffsetX + 200, y = buttonOffsetY, height = 30, width = 100 )
+        
+        digestibilityButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[3] )
+        digestibilityButton.place( x = buttonsOffsetX + 300, y = buttonOffsetY, height = 30, width = 100 )
+        
+        calorificButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[4] )
+        calorificButton.place( x = buttonsOffsetX + 400, y = buttonOffsetY, height = 30, width = 100 )
+        
+        simplicityButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[5] )
+        simplicityButton.place( x = buttonsOffsetX + 500, y = buttonOffsetY, height = 30, width = 100 )
+        
         self.drawHeader( C )
         self.drawGroups( C )
         self.drawCurrentCritPair( C )
@@ -31,11 +55,11 @@ class DietSelectorGUI:
 
     def drawHeader( self, canvas ):
         canvas.create_rectangle( 2, 2, self.windowWidth, 50, fill = 'snow' )
-        canvas.create_text( self.windowWidth / 2, self.beltPosOffset - 10,
+        canvas.create_text( self.windowWidth / 2, self.beltPosOffset + 10,
                        text = 'What is more important?', font = ( 'Calibri', 13 ), fill = 'black' )
-        canvas.create_text( self.windowWidth / 2, self.beltPosOffset - 75,
+        canvas.create_text( self.windowWidth / 2, self.beltPosOffset - 115,
                        text = 'Choose between:', font = ( 'Calibri', 9 ), fill = 'black' )
-        canvas.create_text( self.windowWidth / 2, self.beltPosOffset - 55,
+        canvas.create_text( self.windowWidth / 2, self.beltPosOffset - 95,
                        text = ', '.join( diet_selector.COURSES ), font = ( 'Calibri', 9 ), fill = 'black' )
                        
     def drawCurrentCritPair( self, canvas ):
@@ -129,7 +153,7 @@ class DietSelectorGUI:
                                 text = '3. ' + result[2], font = ( 'Calibri', 11 ), fill = 'black' )
         else:
             canvas.create_text( self.windowWidth / 2, 110 + self.beltPosOffset,
-                                text = 'The choice is inconsitence!', font = ( 'Calibri', 13 ), fill = 'black' )
+                                text = 'The choice is inconsitence!', font = ( 'Calibri', 15 ), fill = 'r' )
     
     def OnMouseMove( self, event, canvas ):
         canvas.delete( "all" )
