@@ -1,5 +1,6 @@
 import Tkinter
 import math
+import diet_selector
 
 class DietSelectorGUI:
     gradHeight = 50
