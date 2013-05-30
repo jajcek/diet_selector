@@ -16,7 +16,7 @@ class DietSelectorGUI:
 
     def OnMouseClick( self, event ):
         x = self.findIndex( event.x - self.windowWidth / 2 ) - 9
-        if( x == 1 ):
+        if( x == 1 or x == -1 ):
             None
         elif( x < 0 ):
             None
@@ -31,7 +31,7 @@ class DietSelectorGUI:
         if( x is not 8 and x is not 10 ):
             self.drawGradient( canvas, self.windowWidth / 2, 0, self.groups[x] + self.windowWidth / 2, self.gradHeight )
         else:
-            canvas.create_rectangle( self.groups[8] + self.windowWidth / 2, 0, self.groups[10] + self.windowWidth / 2, 50, fill = 'black' )
+            canvas.create_rectangle( self.groups[8] + self.windowWidth / 2, 0, self.groups[10] + self.windowWidth / 2, 50, fill = 'grey' )
             canvas.create_text( self.windowWidth / 2, 70, text = 'EQUAL', fill = 'red' )
         self.drawGroups( canvas )
         
@@ -75,14 +75,14 @@ class DietSelectorGUI:
                 x2 = x1 + 255
             for offset in range( x1, x2 ):
                 color = 255 - ( offset - x1 )
-                gradColor = '#%02x%02x%02x' % ( color, color, color )
+                gradColor = '#%02x%02x%02x' % ( color, 255, color )
                 canvas.create_line( offset, y1, offset, y1 + h, fill = gradColor )
         else:
             if( x1 - x2 > 255 ):
                 x2 = x1 - 255
             for offset in range( x2, x1 ):
                 color = 255 - ( x1 - offset )
-                gradColor = '#%02x%02x%02x' % ( color, color, color )
+                gradColor = '#%02x%02x%02x' % ( color, 255, color )
                 canvas.create_line( offset, y1, offset, y1 + h, fill = gradColor )
 
 root = Tkinter.Tk()
