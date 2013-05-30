@@ -70,14 +70,28 @@ class DietSelectorGUI:
             self.userChoicesMatrix[rightIndex][leftIndex] = x
             self.userChoicesMatrix[leftIndex][rightIndex] = 1.0 / x
         
-        s = [[str(e) for e in row] for row in self.userChoicesMatrix]
+        """s = [[str(e) for e in row] for row in self.userChoicesMatrix]
         lens = [len(max(col, key=len)) for col in zip(*s)]
         fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
         table = [fmt.format(*row) for row in s]
         print '--------------------------------------------------'
-        print '\n'.join(table)
+        print '\n'.join(table)"""
         
     def drawSummary( self, canvas ):
+        diet_selector.normalizeVertically( self.userChoicesMatrix )
+        diet_selector.normalizeVertically( diet_selector.price )
+        diet_selector.normalizeVertically( diet_selector.nour )
+        diet_selector.normalizeVertically( diet_selector.time )
+        diet_selector.normalizeVertically( diet_selector.digestibility )
+        diet_selector.normalizeVertically( diet_selector.calorific )
+        diet_selector.normalizeVertically( diet_selector.simplicity )
+        s0 = diet_selector.calcMatrixWithAvgRows( self.userChoicesMatrix )
+        s  = diet_selector.calcMatrixWithAvgRows( diet_selector.price, diet_selector.nour,
+                                                  diet_selector.time, diet_selector.digestibility,
+                                                  diet_selector.calorific, diet_selector.simplicity )
+        r  = diet_selector.calcDecisionValues( s0, s )
+        u  = diet_selector.prepareDecisionVector( r )
+        print u
         canvas.create_text( self.windowWidth / 2, 100 + self.beltPosOffset, text = 'SUMMARY', fill = 'black' )
     
     def OnMouseMove( self, event, canvas ):
