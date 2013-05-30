@@ -15,7 +15,7 @@ class DietSelectorGUI:
         C = Tkinter.Canvas( root, bg = "white", height = 200, width = self.windowWidth, cursor = 'hand2' )
         C.pack()
         C.bind( "<Motion>", lambda event: self.OnMouseMove( event, C ) )
-        C.bind( "<Button-1>", self.OnMouseClick )
+        C.bind( "<Button-1>", lambda event: self.OnMouseClick( event, C ) )
         self.drawGroups( C )
         self.drawCurrentCritPair( C )
 
@@ -32,7 +32,7 @@ class DietSelectorGUI:
             for j in range( i + 1, criteriaCount ):
                 self.criteriaPairs.append( ( diet_selector.CRITERIA[i], diet_selector.CRITERIA[j] ) )
         
-    def OnMouseClick( self, event ):
+    def OnMouseClick( self, event, canvas ):
         x = self.findIndex( event.x - self.windowWidth / 2 ) - 9
         if( x == 1 or x == -1 ):
             None
@@ -41,9 +41,15 @@ class DietSelectorGUI:
         else:
             None
         
-        self.setNextCritPair()
-        print str( x )
+        if( len( self.criteriaPairs ) != 0 ):
+            self.setNextCritPair()
         
+        self.OnMouseMove( event, canvas )
+        #print str( x )
+        
+    def drawSummary( self, canvas ):
+        canvas.create_text( self.windowWidth / 2, 100 + self.beltPosOffset, text = 'SUMMARY', fill = 'black' )
+    
     def OnMouseMove( self, event, canvas ):
         canvas.delete( "all" )
         x = self.findIndex( event.x - self.windowWidth / 2 )
@@ -54,7 +60,11 @@ class DietSelectorGUI:
                                     0 + self.beltPosOffset, self.groups[10] + self.windowWidth / 2, 50 + self.beltPosOffset, fill = 'grey' )
             canvas.create_text( self.windowWidth / 2, 70 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
         self.drawGroups( canvas )
-        self.drawCurrentCritPair( canvas )
+        
+        if( len( self.criteriaPairs ) == 0 ):
+            self.drawSummary( canvas )
+        else:
+            self.drawCurrentCritPair( canvas )
         
     def findIndex( self, x ):
         index = int( math.ceil( x / 28 ) ) + 10
