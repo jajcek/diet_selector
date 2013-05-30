@@ -8,7 +8,12 @@ class DietSelectorGUI:
     groups = ( -255, -226, -198, -170, -141, -113, -85, -56, -28, 0, 28, 56, 85, 113, 141, 170, 198, 226, 255 )
     criteriaPairs = []
     beltPosOffset = 60
-    userChoicesMatrix = [ [ 1, 1, 1, 1, 1, 1], [ 1, 1, 1, 1, 1, 1], [ 1, 1, 1, 1, 1, 1], [ 1, 1, 1, 1, 1, 1], [ 1, 1, 1, 1, 1, 1], [ 1, 1, 1, 1, 1, 1], ]
+    userChoicesMatrix = [ [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+                          [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+                          [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+                          [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+                          [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+                          [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], ]
 	
     def __init__( self, root ):
         self.preparePairs()
@@ -59,9 +64,11 @@ class DietSelectorGUI:
         rightIndex = diet_selector.CRITERIA.index( rightFromPair )
         
         if( x < -1 ):
-            self.userChoicesMatrix[rightIndex][leftIndex] = abs( x )
+            self.userChoicesMatrix[leftIndex][rightIndex] = abs( x )
+            self.userChoicesMatrix[rightIndex][leftIndex] = 1.0 / abs( x )
         elif( x > -1 ):
-            self.userChoicesMatrix[leftIndex][rightIndex] = x
+            self.userChoicesMatrix[rightIndex][leftIndex] = x
+            self.userChoicesMatrix[leftIndex][rightIndex] = 1.0 / x
         
         s = [[str(e) for e in row] for row in self.userChoicesMatrix]
         lens = [len(max(col, key=len)) for col in zip(*s)]
