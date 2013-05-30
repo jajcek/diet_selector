@@ -19,10 +19,10 @@ class DietSelectorGUI:
     def __init__( self, root ):
         self.preparePairs()
     
-        C = Tkinter.Canvas( root, bg = "white", height = 330, width = self.windowWidth, cursor = 'hand2' )
+        C = Tkinter.Canvas( root, bg = 'white', height = 330, width = self.windowWidth, cursor = 'hand2' )
         C.pack()
-        C.bind( "<Motion>", lambda event: self.OnMouseMove( event, C ) )
-        C.bind( "<Button-1>", lambda event: self.OnMouseClick( event, C ) )
+        C.bind( '<Motion>', lambda event: self.OnMouseMove( event, C ) )
+        C.bind( '<Button-1>', lambda event: self.OnMouseClick( event, C ) )
 
         buttonsOffsetX = 100
         buttonOffsetY = 90
@@ -32,26 +32,34 @@ class DietSelectorGUI:
         
         priceButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[0] )
         priceButton.place( x = buttonsOffsetX, y = buttonOffsetY, height = 30, width = 100 )
+        priceButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[0] ) )
         
         nourButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[1] )
         nourButton.place( x = buttonsOffsetX + 100, y = buttonOffsetY, height = 30, width = 100 )
+        nourButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[1] ) )
         
         timeButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[2] )
         timeButton.place( x = buttonsOffsetX + 200, y = buttonOffsetY, height = 30, width = 100 )
+        timeButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[2] ) )
         
         digestibilityButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[3] )
         digestibilityButton.place( x = buttonsOffsetX + 300, y = buttonOffsetY, height = 30, width = 100 )
+        digestibilityButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[3] ) )
         
         calorificButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[4] )
         calorificButton.place( x = buttonsOffsetX + 400, y = buttonOffsetY, height = 30, width = 100 )
+        calorificButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[4] ) )
         
         simplicityButton = Tkinter.Button( root, relief = 'groove', text = diet_selector.CRITERIA[5] )
         simplicityButton.place( x = buttonsOffsetX + 500, y = buttonOffsetY, height = 30, width = 100 )
+        simplicityButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[5] ) )
         
         self.drawHeader( C )
         self.drawGroups( C )
         self.drawCurrentCritPair( C )
         
+    def OnOrderButtonClick( self, event, criterion ):
+        print( criterion )
 
     def drawHeader( self, canvas ):
         canvas.create_rectangle( 2, 2, self.windowWidth, 50, fill = 'snow' )
