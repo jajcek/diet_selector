@@ -7,7 +7,8 @@ class DietSelectorGUI:
     windowWidth = 800
     groups = ( -255, -226, -198, -170, -141, -113, -85, -56, -28, 0, 28, 56, 85, 113, 141, 170, 198, 226, 255 )
     criteriaPairs = []
-    beltPosOffset = 60
+    beltPosOffset = 90
+    finished = False
     userChoicesMatrix = [ [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
                           [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
                           [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
@@ -18,16 +19,30 @@ class DietSelectorGUI:
     def __init__( self, root ):
         self.preparePairs()
     
-        C = Tkinter.Canvas( root, bg = "white", height = 200, width = self.windowWidth, cursor = 'hand2' )
+        C = Tkinter.Canvas( root, bg = "white", height = 300, width = self.windowWidth, cursor = 'hand2' )
         C.pack()
         C.bind( "<Motion>", lambda event: self.OnMouseMove( event, C ) )
         C.bind( "<Button-1>", lambda event: self.OnMouseClick( event, C ) )
+
+        self.drawHeader( C )
         self.drawGroups( C )
         self.drawCurrentCritPair( C )
+        
 
+    def drawHeader( self, canvas ):
+        canvas.create_rectangle( 2, 2, self.windowWidth, 50, fill = 'snow' )
+        canvas.create_text( self.windowWidth / 2, self.beltPosOffset - 10,
+                       text = 'What is more important?', font = ( 'Calibri', 13 ), fill = 'black' )
+        canvas.create_text( self.windowWidth / 2, self.beltPosOffset - 75,
+                       text = 'Choose between:', font = ( 'Calibri', 9 ), fill = 'black' )
+        canvas.create_text( self.windowWidth / 2, self.beltPosOffset - 55,
+                       text = ', '.join( diet_selector.COURSES ), font = ( 'Calibri', 9 ), fill = 'black' )
+                       
     def drawCurrentCritPair( self, canvas ):
-        canvas.create_text( self.windowWidth / 2 - 150, self.beltPosOffset + 20, text = self.criteriaPairs[0][0], font = ( "Verdana", 16 ),  fill = 'black' )
-        canvas.create_text( self.windowWidth / 2 + 150, self.beltPosOffset + 20, text = self.criteriaPairs[0][1], font = ( "Verdana", 16 ),  fill = 'black' )
+        canvas.create_text( self.windowWidth / 2 - 150, self.beltPosOffset + 20,
+                            text = self.criteriaPairs[0][0], font = ( "Calibri", 16 ),  fill = 'black' )
+        canvas.create_text( self.windowWidth / 2 + 150, self.beltPosOffset + 20,
+                            text = self.criteriaPairs[0][1], font = ( "Calibri", 16 ),  fill = 'black' )
         
     def setNextCritPair( self ):
         del self.criteriaPairs[0]
@@ -39,6 +54,9 @@ class DietSelectorGUI:
                 self.criteriaPairs.append( ( diet_selector.CRITERIA[i], diet_selector.CRITERIA[j] ) )
         
     def OnMouseClick( self, event, canvas ):
+        if( self.finished ):
+            return
+            
         x = self.findIndex( event.x - self.windowWidth / 2 ) - 9
         if( x == 1 or x == -1 ):
             None
@@ -78,6 +96,8 @@ class DietSelectorGUI:
         print '\n'.join(table)"""
         
     def drawSummary( self, canvas ):
+        self.finished = True
+    
         diet_selector.normalizeVertically( self.userChoicesMatrix )
         diet_selector.normalizeVertically( diet_selector.price )
         diet_selector.normalizeVertically( diet_selector.nour )
@@ -91,11 +111,32 @@ class DietSelectorGUI:
                                                   diet_selector.calorific, diet_selector.simplicity )
         r  = diet_selector.calcDecisionValues( s0, s )
         u  = diet_selector.prepareDecisionVector( r )
-        print u
-        canvas.create_text( self.windowWidth / 2, 100 + self.beltPosOffset, text = 'SUMMARY', fill = 'black' )
+        
+        result = ['', '', '', '', '', '', '', '', '', '']
+        index = 0
+        for i in u:
+            result[i-1] = diet_selector.COURSES[index]
+            index += 1
+
+        if( diet_selector.isMatrixConsistence( self.userChoicesMatrix, diet_selector.RI ) ):
+            canvas.create_text( self.windowWidth / 2, 110 + self.beltPosOffset,
+                                text = 'Top 3 choices:', font = ( 'Calibri', 13 ), fill = 'black' )
+            canvas.create_text( self.windowWidth / 2, 130 + self.beltPosOffset,
+                                text = '1. ' + result[0], font = ( 'Calibri', 15 ), fill = 'black' )
+            canvas.create_text( self.windowWidth / 2, 150 + self.beltPosOffset,
+                                text = '2. ' + result[1], font = ( 'Calibri', 13 ), fill = 'black' )
+            canvas.create_text( self.windowWidth / 2, 170 + self.beltPosOffset,
+                                text = '3. ' + result[2], font = ( 'Calibri', 11 ), fill = 'black' )
     
     def OnMouseMove( self, event, canvas ):
         canvas.delete( "all" )
+    
+        if( self.finished ):
+            self.drawHeader( canvas )
+            self.drawGroups( canvas )
+            self.drawSummary( canvas )
+            return
+    
         x = self.findIndex( event.x - self.windowWidth / 2 )
         if( x is not 8 and x is not 10 ):
             self.drawGradient( canvas, self.windowWidth / 2, 0, self.groups[x] + self.windowWidth / 2, self.gradHeight )
@@ -104,6 +145,8 @@ class DietSelectorGUI:
                                     0 + self.beltPosOffset, self.groups[10] + self.windowWidth / 2, 50 + self.beltPosOffset, fill = 'grey' )
             canvas.create_text( self.windowWidth / 2, 70 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
         self.drawGroups( canvas )
+        
+        self.drawHeader( canvas )
         
         if( len( self.criteriaPairs ) == 0 ):
             self.drawSummary( canvas )
@@ -168,5 +211,6 @@ class DietSelectorGUI:
                 canvas.create_line( offset, y1 + self.beltPosOffset, offset, y1 + h + self.beltPosOffset, fill = gradColor )
 
 root = Tkinter.Tk()
+root.title( 'Diet selector' )
 app = DietSelectorGUI( root )
 root.mainloop()
