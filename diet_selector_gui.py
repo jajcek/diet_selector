@@ -8,6 +8,7 @@ class DietSelectorGUI:
     groups = ( -255, -226, -198, -170, -141, -113, -85, -56, -28, 0, 28, 56, 85, 113, 141, 170, 198, 226, 255 )
     criteriaPairs = []
     beltPosOffset = 60
+    userChoicesMatrix = [ [ 1, 1, 1, 1, 1, 1], [ 1, 1, 1, 1, 1, 1], [ 1, 1, 1, 1, 1, 1], [ 1, 1, 1, 1, 1, 1], [ 1, 1, 1, 1, 1, 1], [ 1, 1, 1, 1, 1, 1], ]
 	
     def __init__( self, root ):
         self.preparePairs()
@@ -41,11 +42,33 @@ class DietSelectorGUI:
         else:
             None
         
+        self.updateUserChoice( x )
+        
         if( len( self.criteriaPairs ) != 0 ):
             self.setNextCritPair()
         
         self.OnMouseMove( event, canvas )
-        #print str( x )
+        
+    def updateUserChoice( self, x ):
+        if( len( self.criteriaPairs ) == 0 ):
+            return
+        leftFromPair  = self.criteriaPairs[0][0]
+        rightFromPair = self.criteriaPairs[0][1]
+        
+        leftIndex  = diet_selector.CRITERIA.index( leftFromPair )
+        rightIndex = diet_selector.CRITERIA.index( rightFromPair )
+        
+        if( x < -1 ):
+            self.userChoicesMatrix[rightIndex][leftIndex] = abs( x )
+        elif( x > -1 ):
+            self.userChoicesMatrix[leftIndex][rightIndex] = x
+        
+        s = [[str(e) for e in row] for row in self.userChoicesMatrix]
+        lens = [len(max(col, key=len)) for col in zip(*s)]
+        fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
+        table = [fmt.format(*row) for row in s]
+        print '--------------------------------------------------'
+        print '\n'.join(table)
         
     def drawSummary( self, canvas ):
         canvas.create_text( self.windowWidth / 2, 100 + self.beltPosOffset, text = 'SUMMARY', fill = 'black' )
