@@ -167,6 +167,10 @@ class DietSelectorGUI:
             result[i-1] = diet_selector.COURSES[index]
             index += 1
 
+        print '------------------------------------------------'
+        print self.userChoicesMatrix
+        print '------------------------------------------------'
+        print diet_selector.RI
         if( diet_selector.isMatrixConsistence( self.userChoicesMatrix, diet_selector.RI ) ):
             canvas.create_text( self.windowWidth / 2, 110 + self.beltPosOffset,
                                 text = 'Top 3 choices:', font = ( 'Calibri', 13 ), fill = 'black' )
