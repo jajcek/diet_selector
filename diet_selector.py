@@ -119,7 +119,7 @@ simplicity = \
 		   
 	
 def main( ): 
-	lamPrice = lambdaMax( price ); 
+	"""lamPrice = lambdaMax( price ); 
 	print "Lambda Price\t ", lamPrice
 	print "Consists Price\t ", \
 		countMatrixConsistency( price, RI ), \
@@ -136,16 +136,15 @@ def main( ):
 	print "Lambda Time\t ", lamTime
 	print "Consists Time\t ", \
 		countMatrixConsistency( time, RI ), \
-		isMatrixConsistence( time, RI ) 
-		
+		isMatrixConsistence( time, RI ) """
 		
 	lamDige = lambdaMax( digestibility );
 	print "Lambda Digestibility\t ", lamDige
 	print "Consists Digestibility\t ", \
 		countMatrixConsistency( digestibility, RI ), \
 		isMatrixConsistence( digestibility, RI ) 
-		
-	lamCalo = lambdaMax( calorific );
+
+	"""lamCalo = lambdaMax( calorific );
 	print "Lambda Calorific\t ", lamCalo
 	print "Consists Calorific\t ", \
 		countMatrixConsistency( calorific, RI ), \
@@ -155,12 +154,12 @@ def main( ):
 	print "Lambda Simplicity\t ", lamSimp
 	print "Consists Simplicity\t ", \
 		countMatrixConsistency( simplicity, RI ), \
-		isMatrixConsistence( simplicity, RI )  
+		isMatrixConsistence( simplicity, RI )  """
 	
 def normalizeVertically( matrix ):
 	"""Normalizes the given matrix vertically"""
 
-	newMatrix = list( matrix )
+	newMatrix = [row[:] for row in matrix]
 	# sum all of the columns
 	colSums = [sum(x) for x in zip(*newMatrix)]
 		
@@ -244,9 +243,14 @@ def countMatrixConsistency( matrix, riTable ):
 	return consistencyRatio( c, r );
 
 def isMatrixConsistence( matrix, riTable, epsilon = 0.1 ): 
-    print 'consistency: ' + str( countMatrixConsistency( matrix, riTable ) )
     return ( countMatrixConsistency( matrix, riTable ) < epsilon );
 
+def debugMatrix( matrix ):
+	s = [[str(e) for e in row] for row in matrix]
+	lens = [len(max(col, key=len)) for col in zip(*s)]
+	fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
+	table = [fmt.format(*row) for row in s]
+	print '\n'.join(table)
 
 if __name__ == '__main__':
 	main()

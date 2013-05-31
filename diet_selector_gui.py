@@ -9,6 +9,7 @@ class DietSelectorGUI:
     criteriaPairs = []
     beltPosOffset = 130
     finished = False
+    resultInconsistence = False
     userChoicesMatrix = [ [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
                           [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
                           [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
@@ -145,16 +146,8 @@ class DietSelectorGUI:
         print '\n'.join(table)"""
         
     def drawSummary( self, canvas ):
-        if( self.finished ):
-            return
         self.finished = True
-        
-        print '------------------ user matrix ------------------------------'
-        s = [[str(e) for e in row] for row in self.userChoicesMatrix]
-        lens = [len(max(col, key=len)) for col in zip(*s)]
-        fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
-        table = [fmt.format(*row) for row in s]
-        print '\n'.join(table)
+
         user          = diet_selector.normalizeVertically( self.userChoicesMatrix )
         price         = diet_selector.normalizeVertically( diet_selector.price )
         nour          = diet_selector.normalizeVertically( diet_selector.nour )
@@ -172,16 +165,8 @@ class DietSelectorGUI:
         for i in u:
             result[i-1] = diet_selector.COURSES[index]
             index += 1
-
-        print '------------------ user matrix after normalization ------------------------------'
-        s = [[str(e) for e in row] for row in user]
-        lens = [len(max(col, key=len)) for col in zip(*s)]
-        fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
-        table = [fmt.format(*row) for row in s]
-        print '\n'.join(table)
-        print '------------------------------------------------'
-        print diet_selector.RI
-        if( diet_selector.isMatrixConsistence( user, diet_selector.RI ) ):
+        
+        if( diet_selector.isMatrixConsistence( self.userChoicesMatrix, diet_selector.RI ) ):
             canvas.create_text( self.windowWidth / 2, 110 + self.beltPosOffset,
                                 text = 'Top 3 choices:', font = ( 'Calibri', 13 ), fill = 'black' )
             canvas.create_text( self.windowWidth / 2, 130 + self.beltPosOffset,
@@ -191,8 +176,9 @@ class DietSelectorGUI:
             canvas.create_text( self.windowWidth / 2, 170 + self.beltPosOffset,
                                 text = '3. ' + result[2], font = ( 'Calibri', 11 ), fill = 'black' )
         else:
+            self.resultInconsistence = True
             canvas.create_text( self.windowWidth / 2, 110 + self.beltPosOffset,
-                                text = 'The choice is inconsitence!', font = ( 'Calibri', 15 ), fill = 'r' )
+                                text = 'The choice is inconsistence!', font = ( 'Calibri', 15 ), fill = 'red' )
     
     def OnMouseMove( self, event, canvas ):
         canvas.delete( "all" )
