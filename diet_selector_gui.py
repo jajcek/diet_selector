@@ -5,9 +5,10 @@ import diet_selector
 class DietSelectorGUI:
     gradHeight = 50
     windowWidth = 800
+    windowHeight = 350
     groups = ( -255, -226, -198, -170, -141, -113, -85, -56, -28, 0, 28, 56, 85, 113, 141, 170, 198, 226, 255 )
     criteriaPairs = []
-    beltPosOffset = 130
+    beltPosOffset = 160
     finished = False
     resultInconsistence = False
     userChoicesMatrix = [ [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
@@ -20,11 +21,13 @@ class DietSelectorGUI:
     def __init__( self, root ):
         self.preparePairs()
     
-        C = Tkinter.Canvas( root, bg = 'white', height = 330, width = self.windowWidth, cursor = 'hand2' )
+        C = Tkinter.Canvas( root, bg = 'white', height = self.windowHeight, width = self.windowWidth, cursor = 'hand2' )
         C.pack()
         C.bind( '<Motion>', lambda event: self.OnMouseMove( event, C ) )
         C.bind( '<Button-1>', lambda event: self.OnMouseClick( event, C ) )
 
+        self.createHeader( root )
+        
         buttonsOffsetX = 100
         buttonOffsetY = 90
         
@@ -55,7 +58,7 @@ class DietSelectorGUI:
         simplicityButton.place( x = buttonsOffsetX + 500, y = buttonOffsetY, height = 30, width = 100 )
         simplicityButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[5], C ) )
         
-        self.drawHeader( C )
+        self.createSelectionQuestion()
         self.drawGroups( C )
         self.drawCurrentCritPair( C )
         
@@ -75,18 +78,22 @@ class DietSelectorGUI:
         self.criteriaPairs = []
         for crit in orderedCriteria:
             self.criteriaPairs.append( crit )
-        print self.criteriaPairs
-        print '-------------------------------------------------------------------------'
+
         self.OnMouseMove( event, canvas )
 
-    def drawHeader( self, canvas ):
-        canvas.create_rectangle( 2, 2, self.windowWidth, 50, fill = 'snow' )
-        canvas.create_text( self.windowWidth / 2, self.beltPosOffset + 10,
-                       text = 'What is more important?', font = ( 'Calibri', 13 ), fill = 'black' )
-        canvas.create_text( self.windowWidth / 2, self.beltPosOffset - 115,
-                       text = 'Choose between:', font = ( 'Calibri', 9 ), fill = 'black' )
-        canvas.create_text( self.windowWidth / 2, self.beltPosOffset - 95,
-                       text = ', '.join( diet_selector.COURSES ), font = ( 'Calibri', 9 ), fill = 'black' )
+    def createHeader( self, root ):
+        frame = Tkinter.Frame( root, bg = 'white', bd = 2, relief = 'groove' )
+        frame.place( x = 0, y = 0, width = self.windowWidth + 5, height = 50 )
+    
+        label1 = Tkinter.Label( frame, text = 'Choose between:', font = ( 'Calibri', 9 ), bg = 'snow' )
+        label1.place( x = self.windowWidth / 2 - 50, y = 5 )
+        
+        label2 = Tkinter.Label( frame, text = ', '.join( diet_selector.COURSES ), font = ( 'Calibri', 9 ), bg = 'snow' )
+        label2.place( x = 55, y = 25 )
+		
+    def createSelectionQuestion( self ):
+        selectionQuestion = Tkinter.Label( text = 'What is more important?', font = ( 'Calibri', 13 ), bg = 'snow' )
+        selectionQuestion.place( x = self.windowWidth / 2 - 90, y = self.beltPosOffset - 30 )
                        
     def drawCurrentCritPair( self, canvas ):
         canvas.create_text( self.windowWidth / 2 - 150, self.beltPosOffset + 20,
@@ -184,7 +191,6 @@ class DietSelectorGUI:
         canvas.delete( "all" )
     
         if( self.finished ):
-            self.drawHeader( canvas )
             self.drawGroups( canvas )
             self.drawSummary( canvas )
             return
@@ -197,8 +203,6 @@ class DietSelectorGUI:
                                     0 + self.beltPosOffset, self.groups[10] + self.windowWidth / 2, 50 + self.beltPosOffset, fill = 'grey' )
             canvas.create_text( self.windowWidth / 2, 70 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
         self.drawGroups( canvas )
-        
-        self.drawHeader( canvas )
         
         if( len( self.criteriaPairs ) == 0 ):
             self.drawSummary( canvas )
