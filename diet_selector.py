@@ -241,7 +241,8 @@ def countMatrixConsistency( matrix, riTable ):
 	return consistencyRatio( c, r );
 
 def isMatrixConsistence( matrix, riTable, epsilon = 0.1 ): 
-	return ( countMatrixConsistency( matrix, riTable ) < epsilon );
+    print 'consistency: ' + str( countMatrixConsistency( matrix, riTable ) )
+    return ( countMatrixConsistency( matrix, riTable ) < epsilon );
 
 
 if __name__ == '__main__':
