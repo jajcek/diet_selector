@@ -160,15 +160,18 @@ def main( ):
 def normalizeVertically( matrix ):
 	"""Normalizes the given matrix vertically"""
 
+	newMatrix = list( matrix )
 	# sum all of the columns
-	colSums = [sum(x) for x in zip(*matrix)]
+	colSums = [sum(x) for x in zip(*newMatrix)]
 		
 	# use the colSums to divide values in the given matrix	
-	colCount = len( matrix[0] )
-	rowCount = len( matrix )
+	colCount = len( newMatrix[0] )
+	rowCount = len( newMatrix )
 	for col in range( colCount ):
 		for row in range( rowCount ):
-			matrix[row][col] /= colSums[col]
+			newMatrix[row][col] /= colSums[col]
+            
+	return newMatrix
 
 def calcMatrixWithAvgRows( *matrices ):
 	"""Creates the S matrix with averages of the other matrices

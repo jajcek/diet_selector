@@ -131,10 +131,10 @@ class DietSelectorGUI:
         rightIndex = diet_selector.CRITERIA.index( rightFromPair )
         
         if( x < -1 ):
-            self.userChoicesMatrix[leftIndex][rightIndex] = abs( x )
+            self.userChoicesMatrix[leftIndex][rightIndex] = abs( x ) * 1.0
             self.userChoicesMatrix[rightIndex][leftIndex] = 1.0 / abs( x )
         elif( x > -1 ):
-            self.userChoicesMatrix[rightIndex][leftIndex] = x
+            self.userChoicesMatrix[rightIndex][leftIndex] = x * 1.0
             self.userChoicesMatrix[leftIndex][rightIndex] = 1.0 / x
         
         """s = [[str(e) for e in row] for row in self.userChoicesMatrix]
@@ -145,19 +145,25 @@ class DietSelectorGUI:
         print '\n'.join(table)"""
         
     def drawSummary( self, canvas ):
+        if( self.finished ):
+            return
         self.finished = True
-    
-        diet_selector.normalizeVertically( self.userChoicesMatrix )
-        diet_selector.normalizeVertically( diet_selector.price )
-        diet_selector.normalizeVertically( diet_selector.nour )
-        diet_selector.normalizeVertically( diet_selector.time )
-        diet_selector.normalizeVertically( diet_selector.digestibility )
-        diet_selector.normalizeVertically( diet_selector.calorific )
-        diet_selector.normalizeVertically( diet_selector.simplicity )
-        s0 = diet_selector.calcMatrixWithAvgRows( self.userChoicesMatrix )
-        s  = diet_selector.calcMatrixWithAvgRows( diet_selector.price, diet_selector.nour,
-                                                  diet_selector.time, diet_selector.digestibility,
-                                                  diet_selector.calorific, diet_selector.simplicity )
+        
+        print '------------------ user matrix ------------------------------'
+        s = [[str(e) for e in row] for row in self.userChoicesMatrix]
+        lens = [len(max(col, key=len)) for col in zip(*s)]
+        fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
+        table = [fmt.format(*row) for row in s]
+        print '\n'.join(table)
+        user          = diet_selector.normalizeVertically( self.userChoicesMatrix )
+        price         = diet_selector.normalizeVertically( diet_selector.price )
+        nour          = diet_selector.normalizeVertically( diet_selector.nour )
+        time          = diet_selector.normalizeVertically( diet_selector.time )
+        digestibility = diet_selector.normalizeVertically( diet_selector.digestibility )
+        calorific     = diet_selector.normalizeVertically( diet_selector.calorific )
+        simplicity    = diet_selector.normalizeVertically( diet_selector.simplicity )
+        s0 = diet_selector.calcMatrixWithAvgRows( user )
+        s  = diet_selector.calcMatrixWithAvgRows( price, nour, time, digestibility, calorific, simplicity )
         r  = diet_selector.calcDecisionValues( s0, s )
         u  = diet_selector.prepareDecisionVector( r )
         
@@ -167,11 +173,15 @@ class DietSelectorGUI:
             result[i-1] = diet_selector.COURSES[index]
             index += 1
 
-        print '------------------------------------------------'
-        print self.userChoicesMatrix
+        print '------------------ user matrix afgre normalization ------------------------------'
+        s = [[str(e) for e in row] for row in user]
+        lens = [len(max(col, key=len)) for col in zip(*s)]
+        fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
+        table = [fmt.format(*row) for row in s]
+        print '\n'.join(table)
         print '------------------------------------------------'
         print diet_selector.RI
-        if( diet_selector.isMatrixConsistence( self.userChoicesMatrix, diet_selector.RI ) ):
+        if( diet_selector.isMatrixConsistence( user, diet_selector.RI ) ):
             canvas.create_text( self.windowWidth / 2, 110 + self.beltPosOffset,
                                 text = 'Top 3 choices:', font = ( 'Calibri', 13 ), fill = 'black' )
             canvas.create_text( self.windowWidth / 2, 130 + self.beltPosOffset,
