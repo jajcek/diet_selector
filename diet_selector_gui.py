@@ -173,7 +173,7 @@ class DietSelectorGUI:
             result[i-1] = diet_selector.COURSES[index]
             index += 1
 
-        print '------------------ user matrix afgre normalization ------------------------------'
+        print '------------------ user matrix after normalization ------------------------------'
         s = [[str(e) for e in row] for row in user]
         lens = [len(max(col, key=len)) for col in zip(*s)]
         fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
