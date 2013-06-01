@@ -82,7 +82,7 @@ class DietSelectorGUI:
         simplicityButton.place( x = buttonsOffsetX + 500, y = buttonOffsetY, height = 30, width = 100 )
         simplicityButton.bind( '<Button-1>', lambda event: self.OnOrderButtonClick( event, diet_selector.CRITERIA[5], canvas ) )
         
-        finishButton = Tkinter.Button( root, relief = 'groove', text ='Finish' )
+        finishButton = Tkinter.Button( root, relief = 'groove', text ='Finish now' )
         finishButton.place( x = buttonsOffsetX + 250, y = buttonOffsetY + 35, height = 30, width = 100 )
         finishButton.bind( '<Button-1>', lambda event: self.OnFinishButtonClick( event, canvas ) )
         
