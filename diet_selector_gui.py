@@ -199,15 +199,16 @@ class DietSelectorGUI:
         
         # if the matrix is consistence, then draw the TOP 3
         if( diet_selector.isMatrixConsistence( self.userChoicesMatrix, diet_selector.RI ) ):
-            canvas.create_rectangle( self.windowWidth / 2 - 100, 85 + self.beltPosOffset,
-                                     self.windowWidth / 2 + 100, 185 + self.beltPosOffset, fill = 'light green' )
-            canvas.create_text( self.windowWidth / 2, 100 + self.beltPosOffset,
+            offsetY = -60
+            canvas.create_rectangle( self.windowWidth / 2 - 100, 85 + self.beltPosOffset + offsetY,
+                                     self.windowWidth / 2 + 100, 185 + self.beltPosOffset + offsetY, fill = 'light green' )
+            canvas.create_text( self.windowWidth / 2, 100 + self.beltPosOffset + offsetY,
                                 text = 'Top 3 choices:', font = ( 'Calibri', 13 ), fill = 'black' )
-            canvas.create_text( self.windowWidth / 2, 130 + self.beltPosOffset,
+            canvas.create_text( self.windowWidth / 2, 130 + self.beltPosOffset + offsetY,
                                 text = '1. ' + result[0], font = ( 'Calibri', 15 ), fill = 'black' )
-            canvas.create_text( self.windowWidth / 2, 150 + self.beltPosOffset,
+            canvas.create_text( self.windowWidth / 2, 150 + self.beltPosOffset + offsetY,
                                 text = '2. ' + result[1], font = ( 'Calibri', 13 ), fill = 'black' )
-            canvas.create_text( self.windowWidth / 2, 170 + self.beltPosOffset,
+            canvas.create_text( self.windowWidth / 2, 170 + self.beltPosOffset + offsetY,
                                 text = '3. ' + result[2], font = ( 'Calibri', 11 ), fill = 'black' )
         else:  # otherwise display appropriate information
             self.resultInconsistence = True
