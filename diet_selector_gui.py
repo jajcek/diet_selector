@@ -224,7 +224,7 @@ class DietSelectorGUI:
         if( not diet_selector.isMatrixConsistence( self.userChoicesMatrix, diet_selector.RI ) ):
             self.resultInconsistence = True
             canvas.create_text( self.windowWidth / 2, 200 + offsetY,
-                                text = 'The choice is inconsistence!', font = ( 'Calibri', 13 ), fill = 'red' )
+                                text = 'The choice is inconsistent!', font = ( 'Calibri', 13 ), fill = 'red' )
         
     def OnOrderButtonClick( self, event, criterion, canvas ):
         """ It is invoked when a user clicked some of the 'ordering' button. """
