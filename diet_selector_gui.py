@@ -3,7 +3,7 @@ import math
 import diet_selector
 
 class DietSelectorGUI:
-    gradHeight = 15
+    gradHeight = 10
     windowWidth = 800
     windowHeight = 390
     
@@ -14,7 +14,7 @@ class DietSelectorGUI:
     criteriaPairs = []
     
     beltPosOffset = 0
-    beltHeight = 40;
+    beltHeight = 30;
     finished = False
     resultInconsistence = False
     userChoicesMatrix = [ [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
@@ -27,8 +27,10 @@ class DietSelectorGUI:
     def __init__( self, root ):
         self.preparePairs()
     
-        nothing = Tkinter.Canvas( root, bg = 'white', height = 10, width = self.windowWidth, cursor = 'hand2' )
+        nothing = Tkinter.Canvas( root, bg = 'white', height = 44, width = self.windowWidth, cursor = 'hand2' )
         nothing.pack()
+        
+        self.createHeader( root )
         
         canvases = [Tkinter.Canvas()]*15
         
@@ -125,12 +127,11 @@ class DietSelectorGUI:
         for canvas in canvases:
             self.drawGroups( canvas )
             self.drawCritPair( canvas, canvases.index( canvas ) )
-            canvas.create_text( self.windowWidth / 2, 25 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
+            canvas.create_text( self.windowWidth / 2, 15 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
 
     def OnMouseClick( self, event, canvas, pairNumber ):
         """ Event that is invoked during mouse click. It checks what a user clicked and sets new pair if exists. 
             It also invokes the OnMouseMove at the end, so see that function. """
-
         x = self.findIndex( event.x - self.windowWidth / 2 ) - 9
         self.updateUserChoice( x, pairNumber )
 
@@ -168,9 +169,9 @@ class DietSelectorGUI:
         if( x < -1 ):
             self.userChoicesMatrix[leftIndex][rightIndex] = abs( x ) * 1.0
             self.userChoicesMatrix[rightIndex][leftIndex] = 1.0 / abs( x )
-        elif( x > -1 ):
-            self.userChoicesMatrix[rightIndex][leftIndex] = x * 1.0
-            self.userChoicesMatrix[leftIndex][rightIndex] = 1.0 / x    
+        else:
+            self.userChoicesMatrix[rightIndex][leftIndex] = abs( x ) * 1.0
+            self.userChoicesMatrix[leftIndex][rightIndex] = 1.0 / abs( x )    
         
     def createButtons( self, root, canvas ):
         """ Creates all of the buttons in the application. """
@@ -250,13 +251,13 @@ class DietSelectorGUI:
         """ Displays text that list all of the possible courses. """
     
         frame = Tkinter.Frame( root, bg = 'white', bd = 2, relief = 'groove' )
-        frame.place( x = 0, y = 0, width = self.windowWidth + 5, height = 50 )
+        frame.place( x = 0, y = 0, width = self.windowWidth + 5, height = 47 )
     
         label1 = Tkinter.Label( frame, text = 'Choose between:', font = ( 'Calibri', 9 ), bg = 'snow' )
-        label1.place( x = self.windowWidth / 2 - 50, y = 5 )
+        label1.place( x = self.windowWidth / 2 - 55, y = 5 )
         
         label2 = Tkinter.Label( frame, text = ', '.join( diet_selector.COURSES ), font = ( 'Calibri', 9 ), bg = 'snow' )
-        label2.place( x = 235, y = 25 )
+        label2.place( x = 235, y = 23 )
 		
     def createSelectionQuestion( self ):
         """ Displays question text above the belt. """
@@ -331,7 +332,7 @@ class DietSelectorGUI:
         else:  # otherwise draw rectagle and text EQUAL
             #canvas.create_rectangle( self.groups[8] + self.windowWidth / 2,
             #                        0 + self.beltPosOffset, self.groups[10] + self.windowWidth / 2, 20 + self.beltPosOffset, fill = 'light grey' )
-            canvas.create_text( self.windowWidth / 2, 25 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
+            canvas.create_text( self.windowWidth / 2, 15 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
             
     def drawChosenBelt( self, event, canvas, pairNumber ):
         """ Draws the belt that allows user to choose his answer. """
@@ -349,15 +350,13 @@ class DietSelectorGUI:
             x = ( 9 - lv )
         else:
             x = rv + 9
-            
-        print x
-        
+
         if( x != 8 and x != 10 ):
             self.drawGreenGradient( canvas, self.windowWidth / 2, 0, self.groups[int(x)] + self.windowWidth / 2, self.gradHeight )
         else:
             #canvas.create_rectangle( self.groups[8] + self.windowWidth / 2,
             #                        0 + self.beltPosOffset, self.groups[10] + self.windowWidth / 2, 20 + self.beltPosOffset, fill = 'light grey' )
-            canvas.create_text( self.windowWidth / 2, 25 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
+            canvas.create_text( self.windowWidth / 2, 15 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
         
     def findIndex( self, x ):
         """ Find appropriate index from the group attribute. It is assumed that the distance between groups
@@ -376,7 +375,7 @@ class DietSelectorGUI:
     def drawGroups( self, canvas ):
         """ Draws grouping lines as well as labels below them """
     
-        bottomOffset = -5
+        bottomOffset = 15
         criticalGroupsOffset = 3
         textOffset = 13
         lineColour = 'black'
@@ -385,12 +384,12 @@ class DietSelectorGUI:
         for i in range( 0, len( self.groups ) ):
             groupValue = self.groups[i]
             if( i != len( self.groups ) / 2 ):
-                canvas.create_line( self.windowWidth / 2 + groupValue, 18 + self.beltPosOffset,
-                                    self.windowWidth / 2 + groupValue, self.gradHeight + bottomOffset + self.beltPosOffset,
+                canvas.create_line( self.windowWidth / 2 + groupValue, 5 + self.beltPosOffset,
+                                    self.windowWidth / 2 + groupValue, self.gradHeight + bottomOffset + self.beltPosOffset - 12,
                                     fill = lineColour )
             # draw numbers except for "0" in the middledont draw "0" in the middle
             if( i != len( self.groups ) / 2 ):
-                canvas.create_text( self.windowWidth / 2 + groupValue, self.gradHeight + bottomOffset + textOffset + self.beltPosOffset,
+                canvas.create_text( self.windowWidth / 2 + groupValue, self.gradHeight + bottomOffset + textOffset + self.beltPosOffset - 20,
                                     font = ( 'Calibri', 7 ), text = str( abs( i - 9 ) ) )
 
         # make the first, middle and last line longer
