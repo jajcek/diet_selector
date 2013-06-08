@@ -15,8 +15,6 @@ class DietSelectorGUI:
     
     beltPosOffset = 0
     beltHeight = 30;
-    finished = False
-    resultInconsistence = False
     userChoicesMatrix = [ [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
                           [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
                           [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
@@ -225,9 +223,10 @@ class DietSelectorGUI:
                                  
         
         consistence = diet_selector.countMatrixConsistency( self.userChoicesMatrix, diet_selector.RI )
+        print consistence
         consistencyPercent = 100 - ( consistence / 0.1 * 100.0 )
         if( not diet_selector.isMatrixConsistence( self.userChoicesMatrix, diet_selector.RI ) ):
-            consistencyPercent = min( -( 20 - ( consistence / 0.1 * 20.0 ) ), 100 )
+            consistencyPercent = min( -( 100 - ( consistence / 0.1 * 100.0 ) ), 100 )
             canvas.create_text( self.windowWidth / 2, 200 + offsetY,
                                 text = 'The choice is inconsistent! (' + str( int( consistencyPercent ) ) + '%)', font = ( 'Calibri', 13 ), fill = 'red' )
         else:
