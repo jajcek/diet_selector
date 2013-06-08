@@ -233,30 +233,6 @@ class DietSelectorGUI:
             canvas.create_text( self.windowWidth / 2, 200 + offsetY,
                                 text = 'The choice is consistent. (' + str( int( consistencyPercent ) ) + '%)', font = ( 'Calibri', 13 ), fill = 'dark green' )
         
-    def OnOrderButtonClick( self, event, criterion, canvas ):
-        """ It is invoked when a user clicked some of the 'ordering' button. """
-    
-        if( self.finished ):
-            return
-    
-        orderedCriteria = []
-        removedCriteria = []
-        for crit in self.criteriaPairs:
-            if( crit[0] == criterion ):
-                orderedCriteria.append( [crit[0], crit[1]] )
-            elif( crit[1] == criterion ):
-                orderedCriteria.append( [crit[1], crit[0]] )
-            else:
-                removedCriteria.append( crit )
-                
-        orderedCriteria += removedCriteria
-        
-        self.criteriaPairs = []
-        for crit in orderedCriteria:
-            self.criteriaPairs.append( crit )
-
-        self.OnMouseMove( event, canvas )    
-        
     def OnFinishButtonClick( self, event, canvas ):
         """ Function that is invoked by clicking on the 'Finish now' button. """
     
@@ -271,14 +247,40 @@ class DietSelectorGUI:
         self.OnMouseMove( event, canvas )
         
     def createHeader( self, root ):
-        """ Displays text that list all of the possible courses. """
+        """ Displays buttons which will show window to modify decision values. """
     
-        frame = Tkinter.Frame( root, bg = 'white', bd = 2, relief = 'groove' )
-        frame.place( x = 0, y = 0, width = self.windowWidth + 5, height = 30 )
-    
-        label1 = Tkinter.Label( frame, text = 'Choose values for appropriate criteria', font = ( 'Calibri', 12 ), bg = 'snow' )
-        label1.place( x = self.windowWidth / 2 - 120, y = 0 )
-		
+        buttonsOffsetX = 0
+        buttonOffsetY = 0
+        
+        priceButton = Tkinter.Button( root, relief = 'groove', text = 'Modify ' + diet_selector.CRITERIA[0] )
+        priceButton.place( x = buttonsOffsetX, y = buttonOffsetY, height = 30, width = 130 )
+        priceButton.bind( '<Button-1>', lambda event: self.onShowWindow( event, diet_selector.CRITERIA[0] ) )
+        
+        nourButton = Tkinter.Button( root, relief = 'groove', text = 'Modify ' + diet_selector.CRITERIA[1] )
+        nourButton.place( x = buttonsOffsetX + 130, y = buttonOffsetY, height = 30, width = 130 )
+        nourButton.bind( '<Button-1>', lambda event: self.onShowWindow( event, diet_selector.CRITERIA[1] ) )
+        
+        timeButton = Tkinter.Button( root, relief = 'groove', text = 'Modify ' + diet_selector.CRITERIA[2] )
+        timeButton.place( x = buttonsOffsetX + 260, y = buttonOffsetY, height = 30, width = 130 )
+        timeButton.bind( '<Button-1>', lambda event: self.onShowWindow( event, diet_selector.CRITERIA[2] ) )
+        
+        digestibilityButton = Tkinter.Button( root, relief = 'groove', text = 'Modify ' + diet_selector.CRITERIA[3] )
+        digestibilityButton.place( x = buttonsOffsetX + 390, y = buttonOffsetY, height = 30, width = 130 )
+        digestibilityButton.bind( '<Button-1>', lambda event: self.onShowWindow( event, diet_selector.CRITERIA[3] ) )
+        
+        calorificButton = Tkinter.Button( root, relief = 'groove', text = 'Modify ' + diet_selector.CRITERIA[4] )
+        calorificButton.place( x = buttonsOffsetX + 520, y = buttonOffsetY, height = 30, width = 130 )
+        calorificButton.bind( '<Button-1>', lambda event: self.onShowWindow( event, diet_selector.CRITERIA[4] ) )
+        
+        simplicityButton = Tkinter.Button( root, relief = 'groove', text = 'Modify ' + diet_selector.CRITERIA[5] )
+        simplicityButton.place( x = buttonsOffsetX + 650, y = buttonOffsetY, height = 30, width = 160 )
+        simplicityButton.bind( '<Button-1>', lambda event: self.onShowWindow( event, diet_selector.CRITERIA[5] ) )
+
+    def onShowWindow( self, event, criterion ):
+        modWin = Tkinter.Tk()
+        modWin.title( 'Diet selector' )
+        modWin.mainloop()
+        
     def createSelectionQuestion( self ):
         """ Displays question text above the belt. """
     
@@ -311,8 +313,6 @@ class DietSelectorGUI:
         if( x != 8 and x != 10 ):  # if user doesn't select -1 or 1, then draw gradient
             self.drawGrayGradient( canvas, self.windowWidth / 2, 0, self.groups[x] + self.windowWidth / 2, self.gradHeight )
         else:  # otherwise draw rectagle and text EQUAL
-            #canvas.create_rectangle( self.groups[8] + self.windowWidth / 2,
-            #                        0 + self.beltPosOffset, self.groups[10] + self.windowWidth / 2, 20 + self.beltPosOffset, fill = 'light grey' )
             canvas.create_text( self.windowWidth / 2, 15 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
             
     def drawChosenBelt( self, event, canvas, pairNumber ):
