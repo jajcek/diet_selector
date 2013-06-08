@@ -3,7 +3,7 @@ import math
 import diet_selector
 
 class DietSelectorGUI:
-    gradHeight = 50
+    gradHeight = 15
     windowWidth = 800
     windowHeight = 390
     
@@ -13,7 +13,8 @@ class DietSelectorGUI:
     # list of all possible pairs
     criteriaPairs = []
     
-    beltPosOffset = 190
+    beltPosOffset = 0
+    beltHeight = 40;
     finished = False
     resultInconsistence = False
     userChoicesMatrix = [ [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
@@ -26,17 +27,151 @@ class DietSelectorGUI:
     def __init__( self, root ):
         self.preparePairs()
     
-        canvas = Tkinter.Canvas( root, bg = 'white', height = self.windowHeight, width = self.windowWidth, cursor = 'hand2' )
-        canvas.pack()
-        canvas.bind( '<Motion>', lambda event: self.OnMouseMove( event, canvas ) )
-        canvas.bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvas ) )
+        nothing = Tkinter.Canvas( root, bg = 'white', height = 10, width = self.windowWidth, cursor = 'hand2' )
+        nothing.pack()
+        
+        canvases = [Tkinter.Canvas()]*15
+        
+        canvases[0] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[0].pack()
+        canvases[0].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[0], 0 ) )
+        canvases[0].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[0], 0 ) )
+        canvases[0].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[0], 0 ) )
+        
+        canvases[1] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[1] .pack()
+        canvases[1] .bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[1] , 1 ) )
+        canvases[1] .bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[1] , 1 ) )
+        canvases[1] .bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[1] , 1 ) )
+        
+        canvases[2] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[2].pack()
+        canvases[2].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[2], 2 ) )
+        canvases[2].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[2], 2 ) )
+        canvases[2].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[2], 2 ) )
+        
+        canvases[3] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[3].pack()
+        canvases[3].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[3], 3 ) )
+        canvases[3].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[3], 3 ) )
+        canvases[3].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[3], 3 ) )
+        
+        canvases[4] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[4].pack()
+        canvases[4].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[4], 4 ) )
+        canvases[4].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[4], 4 ) )
+        canvases[4].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[4], 4 ) )
+        
+        canvases[5] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[5].pack()
+        canvases[5].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[5], 5 ) )
+        canvases[5].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[5], 5 ) )
+        canvases[5].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[5], 5 ) )
+       
+        canvases[6] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[6].pack()
+        canvases[6].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[6], 6 ) )
+        canvases[6].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[6], 6 ) )
+        canvases[6].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[6], 6 ) )
+        
+        canvases[7] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[7].pack()
+        canvases[7].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[7], 7 ) )
+        canvases[7].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[7], 7 ) )
+        canvases[7].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[7], 7 ) )
+        
+        canvases[8] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[8].pack()
+        canvases[8].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[8], 8 ) )
+        canvases[8].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[8], 8 ) )
+        canvases[8].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[8], 8 ) )
+        
+        canvases[9] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[9].pack()
+        canvases[9].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[9], 9 ) )
+        canvases[9].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[9], 9 ) )
+        canvases[9].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[9], 9 ) )
+        
+        canvases[10] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[10].pack()
+        canvases[10].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[10], 10 ) )
+        canvases[10].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[10], 10 ) )
+        canvases[10].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[10], 10 ) )
+        
+        canvases[11] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[11].pack()
+        canvases[11].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[11], 11 ) )
+        canvases[11].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[11], 11 ) )
+        canvases[11].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[11], 11 ) )
+        
+        canvases[12] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[12].pack()
+        canvases[12].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[12], 12 ) )
+        canvases[12].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[12], 12 ) )
+        canvases[12].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[12], 12 ) )
+        
+        canvases[13] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[13].pack()
+        canvases[13].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[13], 13 ) )
+        canvases[13].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[13], 13 ) )
+        canvases[13].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[13], 13 ) )
+        
+        canvases[14] = Tkinter.Canvas( root, bg = 'white', highlightthickness = 0, height = self.beltHeight, width = self.windowWidth, cursor = 'hand2' )
+        canvases[14].pack()
+        canvases[14].bind( '<Motion>', lambda event: self.OnMouseMove( event, canvases[14], 14 ) )
+        canvases[14].bind( '<Leave>', lambda event: self.onMouseOut( event, canvases[14], 14 ) )
+        canvases[14].bind( '<Button-1>', lambda event: self.OnMouseClick( event, canvases[14], 14 ) )
 
-        self.createHeader( root )
-        self.createButtons( root, canvas )
-        self.createSelectionQuestion()
+        for canvas in canvases:
+            self.drawGroups( canvas )
+            self.drawCritPair( canvas, canvases.index( canvas ) )
+            canvas.create_text( self.windowWidth / 2, 25 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
+
+    def OnMouseClick( self, event, canvas, pairNumber ):
+        """ Event that is invoked during mouse click. It checks what a user clicked and sets new pair if exists. 
+            It also invokes the OnMouseMove at the end, so see that function. """
+
+        x = self.findIndex( event.x - self.windowWidth / 2 ) - 9
+        self.updateUserChoice( x, pairNumber )
+
+        self.OnMouseMove( event, canvas, pairNumber )
+                                
+    def OnMouseMove( self, event, canvas, pairNumber ):
+        """ Event that is invoked during mouse move. It simpy redraws the belt with current pair (if exists).
+            This also draws summary if no pair has been found. """
+    
+        canvas.delete( "all" )
+    
+        self.drawChosenBelt( event, canvas, pairNumber )
+        self.drawBelt( event, canvas )
         self.drawGroups( canvas )
-        self.drawCurrentCritPair( canvas )
+        self.drawCritPair( canvas, pairNumber ) 
+        
+    def onMouseOut( self, event, canvas, pairNumber ):
+        canvas.delete( 'all' )
+        self.drawChosenBelt( event, canvas, pairNumber )
+        self.drawGroups( canvas )
+        self.drawCritPair( canvas, pairNumber ) 
+        
+    def updateUserChoice( self, x, pairNumber ):
+        """ Updates user choice by filling up the user matrix in the appropriate places
+            (taken from criteriaPairs). """
 
+        leftFromPair  = self.criteriaPairs[pairNumber][0]
+        rightFromPair = self.criteriaPairs[pairNumber][1]
+        
+        leftIndex  = diet_selector.CRITERIA.index( leftFromPair )
+        rightIndex = diet_selector.CRITERIA.index( rightFromPair )
+        
+        # note that we fill here the value that is needed
+        # as well as the opposite value
+        if( x < -1 ):
+            self.userChoicesMatrix[leftIndex][rightIndex] = abs( x ) * 1.0
+            self.userChoicesMatrix[rightIndex][leftIndex] = 1.0 / abs( x )
+        elif( x > -1 ):
+            self.userChoicesMatrix[rightIndex][leftIndex] = x * 1.0
+            self.userChoicesMatrix[leftIndex][rightIndex] = 1.0 / x    
+        
     def createButtons( self, root, canvas ):
         """ Creates all of the buttons in the application. """
     
@@ -121,7 +256,7 @@ class DietSelectorGUI:
         label1.place( x = self.windowWidth / 2 - 50, y = 5 )
         
         label2 = Tkinter.Label( frame, text = ', '.join( diet_selector.COURSES ), font = ( 'Calibri', 9 ), bg = 'snow' )
-        label2.place( x = 55, y = 25 )
+        label2.place( x = 235, y = 25 )
 		
     def createSelectionQuestion( self ):
         """ Displays question text above the belt. """
@@ -129,23 +264,13 @@ class DietSelectorGUI:
         selectionQuestion = Tkinter.Label( text = 'What is more important?', font = ( 'Calibri', 13 ), bg = 'snow' )
         selectionQuestion.place( x = self.windowWidth / 2 - 90, y = self.beltPosOffset - 30 )
                        
-    def drawCurrentCritPair( self, canvas ):
+    def drawCritPair( self, canvas, pairNumber ):
         """ Draws current pair that has been set by setNextCritPait(). """
     
-        if( len( self.criteriaPairs ) != 0 ):
-            canvas.create_text( self.windowWidth / 2 - 150, self.beltPosOffset + 20,
-                                text = self.criteriaPairs[0][0], font = ( "Calibri", 16 ),  fill = 'black' )
-            canvas.create_text( self.windowWidth / 2 + 150, self.beltPosOffset + 20,
-                                text = self.criteriaPairs[0][1], font = ( "Calibri", 16 ),  fill = 'black' )
-        
-    def setNextCritPair( self ):
-        """ Removes the current pair from the list and sets the self.finished to True
-            if there are no more pairs. """
-    
-        if( len( self.criteriaPairs ) != 0 ):
-            del self.criteriaPairs[0]
-        if( len( self.criteriaPairs ) == 0 ):
-            self.finished = True
+        canvas.create_text( self.windowWidth / 2 - 320, self.beltPosOffset + 10,
+                            text = self.criteriaPairs[pairNumber][0], font = ( "Calibri", 12 ),  fill = 'black' )
+        canvas.create_text( self.windowWidth / 2 + 320, self.beltPosOffset + 10,
+                            text = self.criteriaPairs[pairNumber][1], font = ( "Calibri", 12 ),  fill = 'black' )
         
     def preparePairs( self ):
         """ Creates list of all possible pairs. It doesn't count (x,y) and (y,x), but only one of them. """
@@ -154,25 +279,6 @@ class DietSelectorGUI:
         for i in range( 0, criteriaCount ):
             for j in range( i + 1, criteriaCount ):
                 self.criteriaPairs.append( [diet_selector.CRITERIA[i], diet_selector.CRITERIA[j]] )
-          
-    def updateUserChoice( self, x ):
-        """ Updates user choice by filling up the user matrix in the appropriate places
-            (taken from criteriaPairs). """
-
-        leftFromPair  = self.criteriaPairs[0][0]
-        rightFromPair = self.criteriaPairs[0][1]
-        
-        leftIndex  = diet_selector.CRITERIA.index( leftFromPair )
-        rightIndex = diet_selector.CRITERIA.index( rightFromPair )
-        
-        # note that we fill here the value that is needed
-        # as well as the opposite value
-        if( x < -1 ):
-            self.userChoicesMatrix[leftIndex][rightIndex] = abs( x ) * 1.0
-            self.userChoicesMatrix[rightIndex][leftIndex] = 1.0 / abs( x )
-        elif( x > -1 ):
-            self.userChoicesMatrix[rightIndex][leftIndex] = x * 1.0
-            self.userChoicesMatrix[leftIndex][rightIndex] = 1.0 / x
         
     def drawSummary( self, canvas ):
         """ Draws summary for the user. """
@@ -214,57 +320,44 @@ class DietSelectorGUI:
             self.resultInconsistence = True
             canvas.create_text( self.windowWidth / 2, 110 + self.beltPosOffset,
                                 text = 'The choice is inconsistence!', font = ( 'Calibri', 15 ), fill = 'red' )
-
-    def OnMouseClick( self, event, canvas ):
-        """ Event that is invoked during mouse click. It checks what a user clicked and sets new pair if exists. 
-            It also invokes the OnMouseMove at the end, so see that function. """
-    
-        if( self.finished ):
-            return
-            
-        x = self.findIndex( event.x - self.windowWidth / 2 ) - 9
-        if( x == 1 or x == -1 ):
-            None
-        elif( x < 0 ):
-            None
-        else:
-            None
-        
-        self.updateUserChoice( x )
-
-        self.setNextCritPair()
-
-        self.OnMouseMove( event, canvas )
-                                
-    def OnMouseMove( self, event, canvas ):
-        """ Event that is invoked during mouse move. It simpy redraws the belt with current pair (if exists).
-            This also draws summary if no pair has been found. """
-    
-        canvas.delete( "all" )
-
-        if( self.finished ):
-            self.drawSummary( canvas )
-            return
-    
-        self.drawBelt( event, canvas )
-        
-        if( len( self.criteriaPairs ) != 0 ):
-            self.drawCurrentCritPair( canvas )
-        else:
-            self.finished = True
         
     def drawBelt( self, event, canvas ):
         """ Draws the belt that allows user to choose his answer. """
     
         x = self.findIndex( event.x - self.windowWidth / 2 )
         
-        if( x is not 8 and x is not 10 ):  # if user doesn't select -1 or 1, then draw gradient
-            self.drawGradient( canvas, self.windowWidth / 2, 0, self.groups[x] + self.windowWidth / 2, self.gradHeight )
+        if( x != 8 and x != 10 ):  # if user doesn't select -1 or 1, then draw gradient
+            self.drawGrayGradient( canvas, self.windowWidth / 2, 0, self.groups[x] + self.windowWidth / 2, self.gradHeight )
         else:  # otherwise draw rectagle and text EQUAL
-            canvas.create_rectangle( self.groups[8] + self.windowWidth / 2,
-                                    0 + self.beltPosOffset, self.groups[10] + self.windowWidth / 2, 50 + self.beltPosOffset, fill = 'grey' )
-            canvas.create_text( self.windowWidth / 2, 70 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
-        self.drawGroups( canvas )
+            #canvas.create_rectangle( self.groups[8] + self.windowWidth / 2,
+            #                        0 + self.beltPosOffset, self.groups[10] + self.windowWidth / 2, 20 + self.beltPosOffset, fill = 'light grey' )
+            canvas.create_text( self.windowWidth / 2, 25 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
+            
+    def drawChosenBelt( self, event, canvas, pairNumber ):
+        """ Draws the belt that allows user to choose his answer. """
+    
+        diet_selector.debugMatrix( self.userChoicesMatrix )
+        print '-----------------------'
+        
+        leftIndex  = diet_selector.CRITERIA.index( self.criteriaPairs[pairNumber][0] )
+        rightIndex = diet_selector.CRITERIA.index( self.criteriaPairs[pairNumber][1] )
+        
+        lv = self.userChoicesMatrix[leftIndex][rightIndex]
+        rv = self.userChoicesMatrix[rightIndex][leftIndex]
+        x = 0
+        if rv < 1.0:
+            x = ( 9 - lv )
+        else:
+            x = rv + 9
+            
+        print x
+        
+        if( x != 8 and x != 10 ):
+            self.drawGreenGradient( canvas, self.windowWidth / 2, 0, self.groups[int(x)] + self.windowWidth / 2, self.gradHeight )
+        else:
+            #canvas.create_rectangle( self.groups[8] + self.windowWidth / 2,
+            #                        0 + self.beltPosOffset, self.groups[10] + self.windowWidth / 2, 20 + self.beltPosOffset, fill = 'light grey' )
+            canvas.create_text( self.windowWidth / 2, 25 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
         
     def findIndex( self, x ):
         """ Find appropriate index from the group attribute. It is assumed that the distance between groups
@@ -283,40 +376,56 @@ class DietSelectorGUI:
     def drawGroups( self, canvas ):
         """ Draws grouping lines as well as labels below them """
     
-        bottomOffset = 5
-        criticalGroupsOffset = 8
-        textOffset = 10
+        bottomOffset = -5
+        criticalGroupsOffset = 3
+        textOffset = 13
         lineColour = 'black'
     
         # draw base lines with numbers
         for i in range( 0, len( self.groups ) ):
             groupValue = self.groups[i]
-            canvas.create_line( self.windowWidth / 2 + groupValue, 40 + self.beltPosOffset,
-                                self.windowWidth / 2 + groupValue, self.gradHeight + bottomOffset + self.beltPosOffset,
-                                fill = lineColour )
+            if( i != len( self.groups ) / 2 ):
+                canvas.create_line( self.windowWidth / 2 + groupValue, 18 + self.beltPosOffset,
+                                    self.windowWidth / 2 + groupValue, self.gradHeight + bottomOffset + self.beltPosOffset,
+                                    fill = lineColour )
             # draw numbers except for "0" in the middledont draw "0" in the middle
             if( i != len( self.groups ) / 2 ):
                 canvas.create_text( self.windowWidth / 2 + groupValue, self.gradHeight + bottomOffset + textOffset + self.beltPosOffset,
-                                    text = str( abs( i - 9 ) ) )
+                                    font = ( 'Calibri', 7 ), text = str( abs( i - 9 ) ) )
 
         # make the first, middle and last line longer
         
         # first group
         pos = self.groups[0]
-        canvas.create_line( self.windowWidth / 2 + pos, 20 + self.beltPosOffset, self.windowWidth / 2 + pos,
+        canvas.create_line( self.windowWidth / 2 + pos, 10 + self.beltPosOffset, self.windowWidth / 2 + pos,
                             self.gradHeight + criticalGroupsOffset + self.beltPosOffset, fill = lineColour )
         
-        # middle group
-        pos = self.groups[len( self.groups ) / 2]
-        canvas.create_line( self.windowWidth / 2 + pos, 20 + self.beltPosOffset, self.windowWidth / 2 + pos,
-                            self.gradHeight + criticalGroupsOffset + self.beltPosOffset, fill = lineColour )
+
         
         # last group
         pos = self.groups[len( self.groups ) - 1]
-        canvas.create_line( self.windowWidth / 2 + pos, 20 + self.beltPosOffset, self.windowWidth / 2 + pos,
+        canvas.create_line( self.windowWidth / 2 + pos, 10 + self.beltPosOffset, self.windowWidth / 2 + pos,
                             self.gradHeight + criticalGroupsOffset + self.beltPosOffset, fill = lineColour )
     
-    def drawGradient( self, canvas, x1, y1, x2, h ):
+    def drawGrayGradient( self, canvas, x1, y1, x2, h ):
+        """ Draws gradient as a sequence of lines """
+        
+        if( x1 <= x2 ):
+            if( x2 - x1 > 255 ):
+                x2 = x1 + 255
+            for offset in range( x1, x2 ):
+                color = 255 - ( offset - x1 )
+                gradColor = '#%02x%02x%02x' % ( color, color, color )
+                canvas.create_line( offset, y1 + self.beltPosOffset, offset, y1 + h + self.beltPosOffset, fill = gradColor )
+        else:
+            if( x1 - x2 > 255 ):
+                x2 = x1 - 255
+            for offset in range( x2, x1 ):
+                color = 255 - ( x1 - offset )
+                gradColor = '#%02x%02x%02x' % ( color, color, color )
+                canvas.create_line( offset, y1 + self.beltPosOffset, offset, y1 + h + self.beltPosOffset, fill = gradColor )
+                
+    def drawGreenGradient( self, canvas, x1, y1, x2, h ):
         """ Draws gradient as a sequence of lines """
         
         if( x1 <= x2 ):
