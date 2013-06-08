@@ -223,10 +223,16 @@ class DietSelectorGUI:
         canvas.create_rectangle( self.windowWidth / 2 + offsetX + 10, 175 + offsetY,
                                  self.windowWidth / 2 + offsetX + r[4] * 1000, 185 + self.beltPosOffset + offsetY, fill = 'light green' )
                                  
+        
+        consistence = diet_selector.countMatrixConsistency( self.userChoicesMatrix, diet_selector.RI )
+        consistencyPercent = 100 - ( consistence / 0.1 * 100.0 )
         if( not diet_selector.isMatrixConsistence( self.userChoicesMatrix, diet_selector.RI ) ):
-            self.resultInconsistence = True
+            consistencyPercent = min( -( 20 - ( consistence / 0.1 * 20.0 ) ), 100 )
             canvas.create_text( self.windowWidth / 2, 200 + offsetY,
-                                text = 'The choice is inconsistent!', font = ( 'Calibri', 13 ), fill = 'red' )
+                                text = 'The choice is inconsistent! (' + str( int( consistencyPercent ) ) + '%)', font = ( 'Calibri', 13 ), fill = 'red' )
+        else:
+            canvas.create_text( self.windowWidth / 2, 200 + offsetY,
+                                text = 'The choice is consistent. (' + str( int( consistencyPercent ) ) + '%)', font = ( 'Calibri', 13 ), fill = 'dark green' )
         
     def OnOrderButtonClick( self, event, criterion, canvas ):
         """ It is invoked when a user clicked some of the 'ordering' button. """
