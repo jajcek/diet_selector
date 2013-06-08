@@ -223,7 +223,7 @@ class DietSelectorGUI:
                                  
         
         consistence = diet_selector.countMatrixConsistency( self.userChoicesMatrix, diet_selector.RI )
-        print consistence
+
         consistencyPercent = 100 - ( consistence / 0.1 * 100.0 )
         if( not diet_selector.isMatrixConsistence( self.userChoicesMatrix, diet_selector.RI ) ):
             consistencyPercent = min( -( 100 - ( consistence / 0.1 * 100.0 ) ), 100 )
