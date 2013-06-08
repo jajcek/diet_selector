@@ -131,6 +131,8 @@ class DietSelectorGUI:
             self.drawGroups( canvas )
             self.drawCritPair( canvas, canvases.index( canvas ) )
             canvas.create_text( self.windowWidth / 2, 15 + self.beltPosOffset, text = 'EQUAL', fill = 'red' )
+            
+        self.updateResultBars( resultCanvas )
 
     def OnMouseClick( self, event, canvas, resultCanvas, pairNumber ):
         """ Event that is invoked during mouse click. It checks what a user clicked and sets new pair if exists. 
