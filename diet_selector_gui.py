@@ -30,7 +30,7 @@ class DietSelectorGUI:
         nothing.pack()
         self.createHeader( root )
         
-        resultCanvas = Tkinter.Canvas( root, bg = 'white', height = 100, width = self.windowWidth )
+        self.resultCanvas = resultCanvas = Tkinter.Canvas( root, bg = 'white', height = 100, width = self.windowWidth )
         
         canvases = [Tkinter.Canvas()]*15
         
@@ -233,19 +233,6 @@ class DietSelectorGUI:
         else:
             canvas.create_text( self.windowWidth / 2, 200 + offsetY,
                                 text = 'The choice is consistent. (' + str( int( consistencyPercent ) ) + '%)', font = ( 'Calibri', 13 ), fill = 'dark green' )
-        
-    def OnFinishButtonClick( self, event, canvas ):
-        """ Function that is invoked by clicking on the 'Finish now' button. """
-    
-        if( self.finished ):
-            return
-    
-        self.finished = True
-    
-        self.drawSummary( canvas )
-        self.criteriaPairs = []
-        
-        self.OnMouseMove( event, canvas )
         
     def createHeader( self, root ):
         """ Displays buttons which will show window to modify decision values. """
@@ -552,6 +539,8 @@ class DietSelectorGUI:
                 diet_selector.simplicity[j-1][i-1] = 1.0 / eval( val )
             label.config( text = str( 1.0 / eval( val ) ) )
 
+            
+        self.updateResultBars( self.resultCanvas )
         #print '-----------'
         #print diet_selector.debugMatrix( diet_selector.price )
         #print '-----------'
