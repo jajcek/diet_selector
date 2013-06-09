@@ -1,4 +1,5 @@
 import Tkinter
+import ttk
 import math
 import diet_selector
 
@@ -254,32 +255,277 @@ class DietSelectorGUI:
         
         priceButton = Tkinter.Button( root, relief = 'groove', text = 'Modify ' + diet_selector.CRITERIA[0] )
         priceButton.place( x = buttonsOffsetX, y = buttonOffsetY, height = 30, width = 130 )
-        priceButton.bind( '<Button-1>', lambda event: self.onShowWindow( event, diet_selector.CRITERIA[0] ) )
+        priceButton.bind( '<Button-1>', lambda event: self.onShowWindow( diet_selector.CRITERIA[0] ) )
         
         nourButton = Tkinter.Button( root, relief = 'groove', text = 'Modify ' + diet_selector.CRITERIA[1] )
         nourButton.place( x = buttonsOffsetX + 130, y = buttonOffsetY, height = 30, width = 130 )
-        nourButton.bind( '<Button-1>', lambda event: self.onShowWindow( event, diet_selector.CRITERIA[1] ) )
+        nourButton.bind( '<Button-1>', lambda event: self.onShowWindow( diet_selector.CRITERIA[1] ) )
         
         timeButton = Tkinter.Button( root, relief = 'groove', text = 'Modify ' + diet_selector.CRITERIA[2] )
         timeButton.place( x = buttonsOffsetX + 260, y = buttonOffsetY, height = 30, width = 130 )
-        timeButton.bind( '<Button-1>', lambda event: self.onShowWindow( event, diet_selector.CRITERIA[2] ) )
+        timeButton.bind( '<Button-1>', lambda event: self.onShowWindow( diet_selector.CRITERIA[2] ) )
         
         digestibilityButton = Tkinter.Button( root, relief = 'groove', text = 'Modify ' + diet_selector.CRITERIA[3] )
         digestibilityButton.place( x = buttonsOffsetX + 390, y = buttonOffsetY, height = 30, width = 130 )
-        digestibilityButton.bind( '<Button-1>', lambda event: self.onShowWindow( event, diet_selector.CRITERIA[3] ) )
+        digestibilityButton.bind( '<Button-1>', lambda event: self.onShowWindow( diet_selector.CRITERIA[3] ) )
         
         calorificButton = Tkinter.Button( root, relief = 'groove', text = 'Modify ' + diet_selector.CRITERIA[4] )
         calorificButton.place( x = buttonsOffsetX + 520, y = buttonOffsetY, height = 30, width = 130 )
-        calorificButton.bind( '<Button-1>', lambda event: self.onShowWindow( event, diet_selector.CRITERIA[4] ) )
+        calorificButton.bind( '<Button-1>', lambda event: self.onShowWindow( diet_selector.CRITERIA[4] ) )
         
         simplicityButton = Tkinter.Button( root, relief = 'groove', text = 'Modify ' + diet_selector.CRITERIA[5] )
         simplicityButton.place( x = buttonsOffsetX + 650, y = buttonOffsetY, height = 30, width = 160 )
-        simplicityButton.bind( '<Button-1>', lambda event: self.onShowWindow( event, diet_selector.CRITERIA[5] ) )
+        simplicityButton.bind( '<Button-1>', lambda event: self.onShowWindow( diet_selector.CRITERIA[5] ) )
 
-    def onShowWindow( self, event, criterion ):
-        modWin = Tkinter.Tk()
-        modWin.title( 'Diet selector' )
-        modWin.mainloop()
+    def onShowWindow( self, criterion ):
+        self.wdw = wdw = Tkinter.Toplevel()
+        wdw.geometry( '660x165' )
+        
+        frame = Tkinter.Frame( wdw, bd = 2, relief = 'groove' )
+        frame.place( x = 0, y = 0, width = 661, height = 200 )
+        
+        for i in range( len( diet_selector.COURSES ) ):
+            Tkinter.Label( frame, text = diet_selector.COURSES[i] ).grid( row = 0, column = i + 1 )
+        for i in range( len( diet_selector.COURSES ) ):
+            Tkinter.Label( frame, text = diet_selector.COURSES[i] ).grid( row = i + 1, column = 0 )
+        for i in range( len( diet_selector.COURSES ) ):
+            for j in range( len( diet_selector.COURSES ) ):
+                if( i == j ):
+                    Tkinter.Label( frame, text = '1.0' ).grid( row = i + 1, column = j + 1 )
+        
+        label1 = Tkinter.Label( frame, text = '1.0' )
+        label1.grid( row = 1, column = 2 )
+        if( criterion == diet_selector.CRITERIA[0] ): label1.config( text = str( diet_selector.price[0][1] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): label1.config( text = str( diet_selector.nour[0][1] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): label1.config( text = str( diet_selector.time[0][1] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): label1.config( text = str( diet_selector.digestibility[0][1] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): label1.config( text = str( diet_selector.calorific[0][1] ) )
+        else: label1.config( text = str( diet_selector.simplicity[0][1] ) )
+        
+        label2 = Tkinter.Label( frame, text = '1.0' )
+        label2.grid( row = 1, column = 3 )
+        if( criterion == diet_selector.CRITERIA[0] ): label2.config( text = str( diet_selector.price[0][2] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): label2.config( text = str( diet_selector.nour[0][2] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): label2.config( text = str( diet_selector.time[0][2] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): label2.config( text = str( diet_selector.digestibility[0][2] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): label2.config( text = str( diet_selector.calorific[0][2] ) )
+        else: label2.config( text = str( diet_selector.simplicity[0][2] ) )
+        
+        label3 = Tkinter.Label( frame, text = '1.0' )
+        label3.grid( row = 1, column = 4 )
+        if( criterion == diet_selector.CRITERIA[0] ): label3.config( text = str( diet_selector.price[0][3] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): label3.config( text = str( diet_selector.nour[0][3] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): label3.config( text = str( diet_selector.time[0][1] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): label3.config( text = str( diet_selector.digestibility[0][3] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): label3.config( text = str( diet_selector.calorific[0][3] ) )
+        else: label3.config( text = str( diet_selector.simplicity[0][3] ) )
+        
+        label4 = Tkinter.Label( frame, text = '1.0' )
+        label4.grid( row = 1, column = 5 )
+        if( criterion == diet_selector.CRITERIA[0] ): label4.config( text = str( diet_selector.price[0][4] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): label4.config( text = str( diet_selector.nour[0][4] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): label4.config( text = str( diet_selector.time[0][4] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): label4.config( text = str( diet_selector.digestibility[0][4] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): label4.config( text = str( diet_selector.calorific[0][4] ) )
+        else: label4.config( text = str( diet_selector.simplicity[0][4] ) )
+        
+        label5 = Tkinter.Label( frame, text = '1.0' )
+        label5.grid( row = 2, column = 3 )
+        if( criterion == diet_selector.CRITERIA[0] ): label5.config( text = str( diet_selector.price[1][2] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): label5.config( text = str( diet_selector.nour[1][2] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): label5.config( text = str( diet_selector.time[1][2] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): label5.config( text = str( diet_selector.digestibility[1][2] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): label5.config( text = str( diet_selector.calorific[1][2] ) )
+        else: label5.config( text = str( diet_selector.simplicity[1][2] ) )
+        
+        label6 = Tkinter.Label( frame, text = '1.0' )
+        label6.grid( row = 2, column = 4 )
+        if( criterion == diet_selector.CRITERIA[0] ): label6.config( text = str( diet_selector.price[1][3] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): label6.config( text = str( diet_selector.nour[1][3] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): label6.config( text = str( diet_selector.time[1][3] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): label6.config( text = str( diet_selector.digestibility[1][3] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): label6.config( text = str( diet_selector.calorific[1][3] ) )
+        else: label6.config( text = str( diet_selector.simplicity[1][3] ) )
+        
+        label7 = Tkinter.Label( frame, text = '1.0' )
+        label7.grid( row = 2, column = 5 )
+        if( criterion == diet_selector.CRITERIA[0] ): label7.config( text = str( diet_selector.price[1][4] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): label7.config( text = str( diet_selector.nour[1][4] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): label7.config( text = str( diet_selector.time[1][4] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): label7.config( text = str( diet_selector.digestibility[1][4] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): label7.config( text = str( diet_selector.calorific[1][4] ) )
+        else: label7.config( text = str( diet_selector.simplicity[1][4] ) )
+        
+        label8 = Tkinter.Label( frame, text = '1.0' )
+        label8.grid( row = 3, column = 4 )
+        if( criterion == diet_selector.CRITERIA[0] ): label8.config( text = str( diet_selector.price[2][3] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): label8.config( text = str( diet_selector.nour[2][3] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): label8.config( text = str( diet_selector.time[2][3] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): label8.config( text = str( diet_selector.digestibility[2][3] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): label8.config( text = str( diet_selector.calorific[2][3] ) )
+        else: label8.config( text = str( diet_selector.simplicity[2][3] ) )
+        
+        label9 = Tkinter.Label( frame, text = '1.0' )
+        label9.grid( row = 3, column = 5 )
+        if( criterion == diet_selector.CRITERIA[0] ): label9.config( text = str( diet_selector.price[2][4] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): label9.config( text = str( diet_selector.nour[2][4] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): label9.config( text = str( diet_selector.time[2][4] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): label9.config( text = str( diet_selector.digestibility[2][4] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): label9.config( text = str( diet_selector.calorific[2][4] ) )
+        else: label9.config( text = str( diet_selector.simplicity[2][4] ) )
+        
+        label10 = Tkinter.Label( frame, text = '1.0' )
+        label10.grid( row = 4, column = 5 )
+        if( criterion == diet_selector.CRITERIA[0] ): label10.config( text = str( diet_selector.price[3][4] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): label10.config( text = str( diet_selector.nour[3][4] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): label10.config( text = str( diet_selector.time[3][4] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): label10.config( text = str( diet_selector.digestibility[3][4] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): label10.config( text = str( diet_selector.calorific[3][4] ) )
+        else: label10.config( text = str( diet_selector.simplicity[3][4] ) )
+        
+        #--------------------------------
+        print criterion
+        realNums = ( '9.0000', '8.0000', '7.0000', '6.0000', '5.0000', '4.0000', '3.0000', '2.0000', '1.0000',
+            '0.5000', '0.3333', '0.2500', '0.2000', '0.1667', '0.1429', '0.1250', '0.1111' )
+        nums = ( '9', '8', '7', '6', '5', '4', '3', '2', 'EQUAL', '1/2', '1/3', '1/4', '1/5', '1/6', '1/7', '1/8', '1/9' )
+        v1 = Tkinter.StringVar()
+        v1.trace( 'w', lambda name, index, mode, sv = v1: self.onComboboxChange( sv, 2, 1, label1 ) )
+        c1 = ttk.Combobox( frame, textvar = v1, values = nums, state = 'readonly', width = 14 )
+        c1.grid( row = 2, column = 1 )
+        if( criterion == diet_selector.CRITERIA[0] ):
+            print 'wlazlo'
+            c1.current( realNums.index( '%.4f' % diet_selector.price[1][0] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): c1.current( realNums.index( '%.4f' % diet_selector.nour[1][0] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): c1.current( realNums.index( '%.4f' % diet_selector.time[1][0] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): c1.current( realNums.index( '%.4f' % diet_selector.digestibility[1][0] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): c1.current( realNums.index( '%.4f' % diet_selector.calorific[1][0] ) )
+        else: c1.current( realNums.index( '%.4f' % diet_selector.simplicity[1][0] ) )
+        
+        v2 = Tkinter.StringVar()
+        v2.trace( 'w', lambda name, index, mode, sv = v2: self.onComboboxChange( sv, 3, 1, label2 ) )
+        c2 = ttk.Combobox( frame, textvar = v2, values = nums, state = 'readonly', width = 14 )
+        c2.grid( row = 3, column = 1 )
+        if( criterion == diet_selector.CRITERIA[0] ): c2.current( realNums.index( '%.4f' % diet_selector.price[2][0] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): c2.current( realNums.index( '%.4f' % diet_selector.nour[2][0] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): c2.current( realNums.index( '%.4f' % diet_selector.time[2][0] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): c2.current( realNums.index( '%.4f' % diet_selector.digestibility[2][0] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): c2.current( realNums.index( '%.4f' % diet_selector.calorific[2][0] ) )
+        else: c2.current( realNums.index( '%.4f' % diet_selector.simplicity[2][0] ) )
+        
+        v3 = Tkinter.StringVar()
+        v3.trace( 'w', lambda name, index, mode, sv = v3: self.onComboboxChange( sv, 3, 2, label5 ) )
+        c3 = ttk.Combobox( frame, textvar = v3, values = nums, state = 'readonly', width = 14 )
+        c3.grid( row = 3, column = 2 )
+        if( criterion == diet_selector.CRITERIA[0] ): c3.current( realNums.index( '%.4f' % diet_selector.price[2][1] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): c3.current( realNums.index( '%.4f' % diet_selector.nour[2][1] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): c3.current( realNums.index( '%.4f' % diet_selector.time[2][1] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): c3.current( realNums.index( '%.4f' % diet_selector.digestibility[2][1] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): c3.current( realNums.index( '%.4f' % diet_selector.calorific[2][1] ) )
+        else: c3.current( realNums.index( '%.4f' % diet_selector.simplicity[2][1] ) )
+        
+        v4 = Tkinter.StringVar()
+        v4.trace( 'w', lambda name, index, mode, sv = v4: self.onComboboxChange( sv, 4, 1, label3 ) )
+        c4 = ttk.Combobox( frame, textvar = v4, values = nums, state = 'readonly', width = 14 )
+        c4.grid( row = 4, column = 1 )
+        if( criterion == diet_selector.CRITERIA[0] ): c4.current( realNums.index( '%.4f' % diet_selector.price[3][0] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): c4.current( realNums.index( '%.4f' % diet_selector.nour[3][0] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): c4.current( realNums.index( '%.4f' % diet_selector.time[3][0] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): c4.current( realNums.index( '%.4f' % diet_selector.digestibility[3][0] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): c4.current( realNums.index( '%.4f' % diet_selector.calorific[3][0] ) )
+        else: c4.current( realNums.index( '%.4f' % diet_selector.simplicity[3][0] ) )
+        
+        v5 = Tkinter.StringVar()
+        v5.trace( 'w', lambda name, index, mode, sv = v5: self.onComboboxChange( sv, 4, 2, label6 ) )
+        c5 = ttk.Combobox( frame, textvar = v5, values = nums, state = 'readonly', width = 14 )
+        c5.grid( row = 4, column = 2 )
+        if( criterion == diet_selector.CRITERIA[0] ): c5.current( realNums.index( '%.4f' % diet_selector.price[3][1] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): c5.current( realNums.index( '%.4f' % diet_selector.nour[3][1] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): c5.current( realNums.index( '%.4f' % diet_selector.time[3][1] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): c5.current( realNums.index( '%.4f' % diet_selector.digestibility[3][1] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): c5.current( realNums.index( '%.4f' % diet_selector.calorific[3][1] ) )
+        else: c5.current( realNums.index( '%.4f' % diet_selector.simplicity[3][1] ) )
+        
+        v6 = Tkinter.StringVar()
+        v6.trace( 'w', lambda name, index, mode, sv = v6: self.onComboboxChange( sv, 4, 3, label8 ) )
+        c6 = ttk.Combobox( frame, textvar = v6, values = nums, state = 'readonly', width = 14 )
+        c6.grid( row = 4, column = 3 )
+        if( criterion == diet_selector.CRITERIA[0] ): c6.current( realNums.index( '%.4f' % diet_selector.price[3][2] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): c6.current( realNums.index( '%.4f' % diet_selector.nour[3][2] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): c6.current( realNums.index( '%.4f' % diet_selector.time[3][2] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): c6.current( realNums.index( '%.4f' % diet_selector.digestibility[3][2] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): c6.current( realNums.index( '%.4f' % diet_selector.calorific[3][2] ) )
+        else: c6.current( realNums.index( '%.4f' % diet_selector.simplicity[3][2] ) )
+        
+        v7 = Tkinter.StringVar()
+        v7.trace( 'w', lambda name, index, mode, sv = v7: self.onComboboxChange( sv, 5, 1, label4 ) )
+        c7 = ttk.Combobox( frame, textvar = v7, values = nums, state = 'readonly', width = 14 )
+        c7.grid( row = 5, column = 1 )
+        if( criterion == diet_selector.CRITERIA[0] ): c7.current( realNums.index( '%.4f' % diet_selector.price[4][0] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): c7.current( realNums.index( '%.4f' % diet_selector.nour[4][0] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): c7.current( realNums.index( '%.4f' % diet_selector.time[4][0] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): c7.current( realNums.index( '%.4f' % diet_selector.digestibility[4][0] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): c7.current( realNums.index( '%.4f' % diet_selector.calorific[4][0] ) )
+        else: c7.current( realNums.index( '%.4f' % diet_selector.simplicity[4][0] ) )
+        
+        v8 = Tkinter.StringVar()
+        v8.trace( 'w', lambda name, index, mode, sv = v8: self.onComboboxChange( sv, 5, 2, label7 ) )
+        c8 = ttk.Combobox( frame, textvar = v8, values = nums, state = 'readonly', width = 14 )
+        c8.grid( row = 5, column = 2 )
+        if( criterion == diet_selector.CRITERIA[0] ): c8.current( realNums.index( '%.4f' % diet_selector.price[4][1] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): c8.current( realNums.index( '%.4f' % diet_selector.nour[4][1] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): c8.current( realNums.index( '%.4f' % diet_selector.time[4][1] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): c8.current( realNums.index( '%.4f' % diet_selector.digestibility[4][1] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): c8.current( realNums.index( '%.4f' % diet_selector.calorific[4][1] ) )
+        else: c8.current( realNums.index( '%.4f' % diet_selector.simplicity[4][1] ) )
+        
+        v9 = Tkinter.StringVar()
+        v9.trace( 'w', lambda name, index, mode, sv = v9: self.onComboboxChange( sv, 5, 3, label9 ) )
+        c9 = ttk.Combobox( frame, textvar = v9, values = nums, state = 'readonly', width = 14 )
+        c9.grid( row = 5, column = 3 )
+        if( criterion == diet_selector.CRITERIA[0] ): c9.current( realNums.index( '%.4f' % diet_selector.price[4][2] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): c9.current( realNums.index( '%.4f' % diet_selector.nour[4][2] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): c9.current( realNums.index( '%.4f' % diet_selector.time[4][2] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): c9.current( realNums.index( '%.4f' % diet_selector.digestibility[4][2] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): c9.current( realNums.index( '%.4f' % diet_selector.calorific[4][2] ) )
+        else: c9.current( realNums.index( '%.4f' % diet_selector.simplicity[4][2] ) )
+        
+        v10 = Tkinter.StringVar()
+        v10.trace( 'w', lambda name, index, mode, sv = v10: self.onComboboxChange( sv, 5, 4, label10 ) )
+        c10 = ttk.Combobox( frame, textvar = v10, values = nums, state = 'readonly', width = 14 )
+        c10.grid( row = 5, column = 4 )
+        if( criterion == diet_selector.CRITERIA[0] ): c10.current( realNums.index( '%.4f' % diet_selector.price[4][3] ) )
+        elif( criterion == diet_selector.CRITERIA[1] ): c10.current( realNums.index( '%.4f' % diet_selector.nour[4][3] ) )
+        elif( criterion == diet_selector.CRITERIA[2] ): c10.current( realNums.index( '%.4f' % diet_selector.time[4][3] ) )
+        elif( criterion == diet_selector.CRITERIA[3] ): c10.current( realNums.index( '%.4f' % diet_selector.digestibility[4][3] ) )
+        elif( criterion == diet_selector.CRITERIA[4] ): c10.current( realNums.index( '%.4f' % diet_selector.calorific[4][3] ) )
+        else: c10.current( realNums.index( '%.4f' % diet_selector.simplicity[4][3] ) )
+        
+        applyButton = Tkinter.Button( frame, text = 'Close', relief = 'groove', command = self.destroyAll )
+        applyButton.place( x = 0, y = 140, width = 657, height = 23 )
+        
+        wdw.transient( root )
+        wdw.grab_set()
+        
+    def destroyAll( self ):
+        self.wdw.destroy()
+        
+    def onComboboxChange( self, sv, i, j, label ):
+        val = sv.get()
+        if( len( val ) > 1 and val[1] == '/' ):
+            val += '.0'
+            
+        if( val == 'EQUAL' ):
+            diet_selector.price[i-1][j-1] = 1.0
+            diet_selector.price[j-1][i-1] = 1.0
+            label.config( text = '1.0' )
+        else:
+            diet_selector.price[i-1][j-1] = eval( val )
+            diet_selector.price[j-1][i-1] = 1.0 / eval( val )
+            label.config( text = str( 1.0 / eval( val ) ) )
+
+        #print '-----------'
+        #print diet_selector.debugMatrix( diet_selector.price )
+        #print '-----------'
         
     def createSelectionQuestion( self ):
         """ Displays question text above the belt. """
