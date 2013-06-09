@@ -384,17 +384,14 @@ class DietSelectorGUI:
         else: label10.config( text = str( diet_selector.simplicity[3][4] ) )
         
         #--------------------------------
-        print criterion
         realNums = ( '9.0000', '8.0000', '7.0000', '6.0000', '5.0000', '4.0000', '3.0000', '2.0000', '1.0000',
             '0.5000', '0.3333', '0.2500', '0.2000', '0.1667', '0.1429', '0.1250', '0.1111' )
         nums = ( '9', '8', '7', '6', '5', '4', '3', '2', 'EQUAL', '1/2', '1/3', '1/4', '1/5', '1/6', '1/7', '1/8', '1/9' )
         v1 = Tkinter.StringVar()
-        v1.trace( 'w', lambda name, index, mode, sv = v1: self.onComboboxChange( sv, 2, 1, label1 ) )
+        v1.trace( 'w', lambda name, index, mode, sv = v1: self.onComboboxChange( sv, 2, 1, label1, criterion ) )
         c1 = ttk.Combobox( frame, textvar = v1, values = nums, state = 'readonly', width = 14 )
         c1.grid( row = 2, column = 1 )
-        if( criterion == diet_selector.CRITERIA[0] ):
-            print 'wlazlo'
-            c1.current( realNums.index( '%.4f' % diet_selector.price[1][0] ) )
+        if( criterion == diet_selector.CRITERIA[0] ): c1.current( realNums.index( '%.4f' % diet_selector.price[1][0] ) )
         elif( criterion == diet_selector.CRITERIA[1] ): c1.current( realNums.index( '%.4f' % diet_selector.nour[1][0] ) )
         elif( criterion == diet_selector.CRITERIA[2] ): c1.current( realNums.index( '%.4f' % diet_selector.time[1][0] ) )
         elif( criterion == diet_selector.CRITERIA[3] ): c1.current( realNums.index( '%.4f' % diet_selector.digestibility[1][0] ) )
@@ -402,7 +399,7 @@ class DietSelectorGUI:
         else: c1.current( realNums.index( '%.4f' % diet_selector.simplicity[1][0] ) )
         
         v2 = Tkinter.StringVar()
-        v2.trace( 'w', lambda name, index, mode, sv = v2: self.onComboboxChange( sv, 3, 1, label2 ) )
+        v2.trace( 'w', lambda name, index, mode, sv = v2: self.onComboboxChange( sv, 3, 1, label2, criterion ) )
         c2 = ttk.Combobox( frame, textvar = v2, values = nums, state = 'readonly', width = 14 )
         c2.grid( row = 3, column = 1 )
         if( criterion == diet_selector.CRITERIA[0] ): c2.current( realNums.index( '%.4f' % diet_selector.price[2][0] ) )
@@ -413,7 +410,7 @@ class DietSelectorGUI:
         else: c2.current( realNums.index( '%.4f' % diet_selector.simplicity[2][0] ) )
         
         v3 = Tkinter.StringVar()
-        v3.trace( 'w', lambda name, index, mode, sv = v3: self.onComboboxChange( sv, 3, 2, label5 ) )
+        v3.trace( 'w', lambda name, index, mode, sv = v3: self.onComboboxChange( sv, 3, 2, label5, criterion ) )
         c3 = ttk.Combobox( frame, textvar = v3, values = nums, state = 'readonly', width = 14 )
         c3.grid( row = 3, column = 2 )
         if( criterion == diet_selector.CRITERIA[0] ): c3.current( realNums.index( '%.4f' % diet_selector.price[2][1] ) )
@@ -424,7 +421,7 @@ class DietSelectorGUI:
         else: c3.current( realNums.index( '%.4f' % diet_selector.simplicity[2][1] ) )
         
         v4 = Tkinter.StringVar()
-        v4.trace( 'w', lambda name, index, mode, sv = v4: self.onComboboxChange( sv, 4, 1, label3 ) )
+        v4.trace( 'w', lambda name, index, mode, sv = v4: self.onComboboxChange( sv, 4, 1, label3, criterion ) )
         c4 = ttk.Combobox( frame, textvar = v4, values = nums, state = 'readonly', width = 14 )
         c4.grid( row = 4, column = 1 )
         if( criterion == diet_selector.CRITERIA[0] ): c4.current( realNums.index( '%.4f' % diet_selector.price[3][0] ) )
@@ -435,7 +432,7 @@ class DietSelectorGUI:
         else: c4.current( realNums.index( '%.4f' % diet_selector.simplicity[3][0] ) )
         
         v5 = Tkinter.StringVar()
-        v5.trace( 'w', lambda name, index, mode, sv = v5: self.onComboboxChange( sv, 4, 2, label6 ) )
+        v5.trace( 'w', lambda name, index, mode, sv = v5: self.onComboboxChange( sv, 4, 2, label6, criterion ) )
         c5 = ttk.Combobox( frame, textvar = v5, values = nums, state = 'readonly', width = 14 )
         c5.grid( row = 4, column = 2 )
         if( criterion == diet_selector.CRITERIA[0] ): c5.current( realNums.index( '%.4f' % diet_selector.price[3][1] ) )
@@ -446,7 +443,7 @@ class DietSelectorGUI:
         else: c5.current( realNums.index( '%.4f' % diet_selector.simplicity[3][1] ) )
         
         v6 = Tkinter.StringVar()
-        v6.trace( 'w', lambda name, index, mode, sv = v6: self.onComboboxChange( sv, 4, 3, label8 ) )
+        v6.trace( 'w', lambda name, index, mode, sv = v6: self.onComboboxChange( sv, 4, 3, label8, criterion ) )
         c6 = ttk.Combobox( frame, textvar = v6, values = nums, state = 'readonly', width = 14 )
         c6.grid( row = 4, column = 3 )
         if( criterion == diet_selector.CRITERIA[0] ): c6.current( realNums.index( '%.4f' % diet_selector.price[3][2] ) )
@@ -457,7 +454,7 @@ class DietSelectorGUI:
         else: c6.current( realNums.index( '%.4f' % diet_selector.simplicity[3][2] ) )
         
         v7 = Tkinter.StringVar()
-        v7.trace( 'w', lambda name, index, mode, sv = v7: self.onComboboxChange( sv, 5, 1, label4 ) )
+        v7.trace( 'w', lambda name, index, mode, sv = v7: self.onComboboxChange( sv, 5, 1, label4, criterion ) )
         c7 = ttk.Combobox( frame, textvar = v7, values = nums, state = 'readonly', width = 14 )
         c7.grid( row = 5, column = 1 )
         if( criterion == diet_selector.CRITERIA[0] ): c7.current( realNums.index( '%.4f' % diet_selector.price[4][0] ) )
@@ -468,7 +465,7 @@ class DietSelectorGUI:
         else: c7.current( realNums.index( '%.4f' % diet_selector.simplicity[4][0] ) )
         
         v8 = Tkinter.StringVar()
-        v8.trace( 'w', lambda name, index, mode, sv = v8: self.onComboboxChange( sv, 5, 2, label7 ) )
+        v8.trace( 'w', lambda name, index, mode, sv = v8: self.onComboboxChange( sv, 5, 2, label7, criterion ) )
         c8 = ttk.Combobox( frame, textvar = v8, values = nums, state = 'readonly', width = 14 )
         c8.grid( row = 5, column = 2 )
         if( criterion == diet_selector.CRITERIA[0] ): c8.current( realNums.index( '%.4f' % diet_selector.price[4][1] ) )
@@ -479,7 +476,7 @@ class DietSelectorGUI:
         else: c8.current( realNums.index( '%.4f' % diet_selector.simplicity[4][1] ) )
         
         v9 = Tkinter.StringVar()
-        v9.trace( 'w', lambda name, index, mode, sv = v9: self.onComboboxChange( sv, 5, 3, label9 ) )
+        v9.trace( 'w', lambda name, index, mode, sv = v9: self.onComboboxChange( sv, 5, 3, label9, criterion ) )
         c9 = ttk.Combobox( frame, textvar = v9, values = nums, state = 'readonly', width = 14 )
         c9.grid( row = 5, column = 3 )
         if( criterion == diet_selector.CRITERIA[0] ): c9.current( realNums.index( '%.4f' % diet_selector.price[4][2] ) )
@@ -490,7 +487,7 @@ class DietSelectorGUI:
         else: c9.current( realNums.index( '%.4f' % diet_selector.simplicity[4][2] ) )
         
         v10 = Tkinter.StringVar()
-        v10.trace( 'w', lambda name, index, mode, sv = v10: self.onComboboxChange( sv, 5, 4, label10 ) )
+        v10.trace( 'w', lambda name, index, mode, sv = v10: self.onComboboxChange( sv, 5, 4, label10, criterion ) )
         c10 = ttk.Combobox( frame, textvar = v10, values = nums, state = 'readonly', width = 14 )
         c10.grid( row = 5, column = 4 )
         if( criterion == diet_selector.CRITERIA[0] ): c10.current( realNums.index( '%.4f' % diet_selector.price[4][3] ) )
@@ -509,18 +506,50 @@ class DietSelectorGUI:
     def destroyAll( self ):
         self.wdw.destroy()
         
-    def onComboboxChange( self, sv, i, j, label ):
+    def onComboboxChange( self, sv, i, j, label, criterion ):
         val = sv.get()
         if( len( val ) > 1 and val[1] == '/' ):
             val += '.0'
             
         if( val == 'EQUAL' ):
-            diet_selector.price[i-1][j-1] = 1.0
-            diet_selector.price[j-1][i-1] = 1.0
+            if( criterion == diet_selector.CRITERIA[0] ):
+                diet_selector.price[i-1][j-1] = 1.0
+                diet_selector.price[j-1][i-1] = 1.0
+            elif( criterion == diet_selector.CRITERIA[1] ):
+                diet_selector.nour[i-1][j-1] = 1.0
+                diet_selector.nour[j-1][i-1] = 1.0
+            elif( criterion == diet_selector.CRITERIA[2] ):
+                diet_selector.time[i-1][j-1] = 1.0
+                diet_selector.time[j-1][i-1] = 1.0
+            elif( criterion == diet_selector.CRITERIA[3] ):
+                diet_selector.digestibility[i-1][j-1] = 1.0
+                diet_selector.digestibility[j-1][i-1] = 1.0
+            elif( criterion == diet_selector.CRITERIA[4] ):
+                diet_selector.calorific[i-1][j-1] = 1.0
+                diet_selector.calorific[j-1][i-1] = 1.0
+            else:
+                diet_selector.simplicity[i-1][j-1] = 1.0
+                diet_selector.simplicity[j-1][i-1] = 1.0
             label.config( text = '1.0' )
         else:
-            diet_selector.price[i-1][j-1] = eval( val )
-            diet_selector.price[j-1][i-1] = 1.0 / eval( val )
+            if( criterion == diet_selector.CRITERIA[0] ):
+                diet_selector.price[i-1][j-1] = eval( val )
+                diet_selector.price[j-1][i-1] = 1.0 / eval( val )
+            elif( criterion == diet_selector.CRITERIA[1] ):
+                diet_selector.nour[i-1][j-1] = eval( val )
+                diet_selector.nour[j-1][i-1] = 1.0 / eval( val )
+            elif( criterion == diet_selector.CRITERIA[2] ):
+                diet_selector.time[i-1][j-1] = eval( val )
+                diet_selector.time[j-1][i-1] = 1.0 / eval( val )
+            elif( criterion == diet_selector.CRITERIA[3] ):
+                diet_selector.digestibility[i-1][j-1] = eval( val )
+                diet_selector.digestibility[j-1][i-1] = 1.0 / eval( val )
+            elif( criterion == diet_selector.CRITERIA[4] ):
+                diet_selector.calorific[i-1][j-1] = eval( val )
+                diet_selector.calorific[j-1][i-1] = 1.0 / eval( val )
+            else:
+                diet_selector.simplicity[i-1][j-1] = eval( val )
+                diet_selector.simplicity[j-1][i-1] = 1.0 / eval( val )
             label.config( text = str( 1.0 / eval( val ) ) )
 
         #print '-----------'
